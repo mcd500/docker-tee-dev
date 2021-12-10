@@ -1,0 +1,39 @@
+variables:
+    ORG: aistcpsec/tee-dev
+
+before_script:
+    - docker login -u ${DOCKERHUB_USER} -p ${DOCKERHUB_PASSWD}
+
+stages:
+    - create-docker
+    - push-public
+
+tee-dev-sgx_VER:
+    stage: create-docker
+    tags:
+        - shell117
+    script:
+        - docker build --rm -t ${ORG}:sgx-ver ./sgx/VER
+
+tee-dev-optee_VER:
+    stage: create-docker
+    tags:
+        - shell117
+    script:
+        - docker build --rm -t ${ORG}:optee-ver ./optee/VER
+
+tee-dev-keystone_1.0.0:
+    stage: create-docker
+    tags:
+        - shell117
+    script:
+        - docker build --rm -t ${ORG}:keystone-1.0.0 ./riscv/1.0.0
+
+docker-push-public:
+    stage: push-public
+    tags:
+        - shell117
+    script:
+        - docker push ${ORG}:sgx-ver
+        - docker push ${ORG}:optee-ver
+        - docker push ${ORG}:keystone-1.0.0

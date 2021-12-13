@@ -26,6 +26,8 @@ RUN git clone https://github.com/intel/linux-sgx.git -b sgx_${VERSION}
 WORKDIR ${USER_DIR}/linux-sgx
 RUN ./download_prebuilt.sh
 
+RUN ls -l
+RUN ls -l ..
 COPY tmp/external_link_${VERSION}.sh /tmp/external_link.sh
 RUN  /tmp/external_link.sh
 

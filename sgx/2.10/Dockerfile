@@ -22,11 +22,12 @@ WORKDIR ${USER_DIR}
 ARG VERSION=
 RUN echo ${VERSION}
 RUN git clone https://github.com/intel/linux-sgx.git -b sgx_${VERSION}
-COPY tmp/external_link_${VERSION}.sh /tmp/external_link.sh
 
 WORKDIR ${USER_DIR}/linux-sgx
-RUN ./download_prebuilt.sh && \
-  /tmp/external_link.sh
+RUN ./download_prebuilt.sh
+
+COPY tmp/external_link_${VERSION}.sh /tmp/external_link.sh
+RUN  /tmp/external_link.sh
 
 RUN make sdk_install_pkg DEBUG=${DEBUG}
 

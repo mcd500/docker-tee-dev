@@ -16,7 +16,7 @@ ENV SGX_SDK=${SDK_PACKAGE_ROOT_DIR}/sgxsdk
 ENV PATH=${PATH}:${SGX_SDK}/bin:${SGX_SDK}/bin/x64
 #ENV PKG_CONFIG_PATH=${SGX_SDK}/pkgconfig
 ENV LD_LIBRARY_PATH=${SGX_SDK}/sdk_libs
-WORKDIR ${MAIN_DIR}
+WORKDIR ${USER_DIR}
 
 # build Intel SGX SDK installer
 ARG VERSION=
@@ -24,7 +24,7 @@ RUN echo ${VERSION}
 RUN git clone https://github.com/intel/linux-sgx.git -b sgx_${VERSION}
 COPY tmp/external_link_${VERSION}.sh /tmp/external_link.sh
 
-WORKDIR ${MAIN_DIR}/linux-sgx
+WORKDIR ${USER_DIR}/linux-sgx
 RUN ./download_prebuilt.sh && \
   /tmp/external_link.sh
 

@@ -8,19 +8,19 @@ stages:
     - create-docker
     - push-public
 
-tee-dev-sgx_VER:
+tee-dev-sgx_2.10:
     stage: create-docker
     tags:
         - shell117
     script:
-        - docker build --rm -t ${ORG}:sgx-ver ./sgx/VER
+        - docker build --rm -t ${ORG}:sgx-2.10 ./sgx/2.10
 
-tee-dev-optee_VER:
+tee-dev-optee_3.9.0:
     stage: create-docker
     tags:
         - shell117
     script:
-        - docker build --rm -t ${ORG}:optee-ver ./optee/VER
+        - docker build --rm -t ${ORG}:optee-3.9.0 ./optee/3.9.0
 
 tee-dev-keystone_1.0.0:
     stage: create-docker
@@ -34,6 +34,6 @@ docker-push-public:
     tags:
         - shell117
     script:
-        - docker push ${ORG}:sgx-ver
-        - docker push ${ORG}:optee-ver
+        - docker push ${ORG}:sgx-2.10
+        - docker push ${ORG}:optee-3.9.0
         - docker push ${ORG}:keystone-1.0.0

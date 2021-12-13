@@ -25,7 +25,8 @@ RUN git clone https://github.com/intel/linux-sgx.git -b sgx_${VERSION}
 
 WORKDIR ${USER_DIR}/linux-sgx
 RUN ./download_prebuilt.sh
-RUN pwd; ls -l; echo a
+RUN pwd; ls -l; echo date
+RUN pwd; ls -l external/toolset/; echo date
 RUN cp external/toolset/ubuntu20.04/{as,ld,ld.gold,objdump} /usr/local/bin
 #COPY tmp/external_link_${VERSION}.sh /tmp/external_link.sh
 #RUN  /tmp/external_link.sh

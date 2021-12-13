@@ -13,7 +13,7 @@ tee-dev-sgx_2.10:
     tags:
         - shell117
     script:
-        - docker build --rm -t ${ORG}:sgx-2.10 ./sgx/2.10
+        - docker build --build-arg VERSION=2.10 --rm -t ${ORG}:sgx-2.10 ./sgx/2.10
 
 tee-dev-optee_3.9.0:
     stage: create-docker

@@ -20,6 +20,7 @@ WORKDIR ${MAIN_DIR}
 
 # build Intel SGX SDK installer
 ARG VERSION=
+RUN echo ${VERSION}
 RUN git clone https://github.com/intel/linux-sgx.git -b sgx_${VERSION}
 COPY tmp/external_link_${VERSION}.sh /tmp/external_link.sh
 

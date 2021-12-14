@@ -84,6 +84,9 @@ COPY --from=builder ${SGX_PSW_INSTALLER_DIR} ${SGX_PSW_INSTALLER_DIR}
 # This must executed before any other install or purge, error will occur
 RUN apt-get update
 
+# Install the required packages
+RUN apt-get install -y libcurl4 libprotobuf17
+
 # install *.deb in PSW except sgx-dcap-pccs because this package requires npm and nodejs, which cannot be installed via apt-get
 RUN rm ${SGX_PSW_INSTALLER_DIR}/deb/*/sgx-dcap-pccs*.deb && \
   dpkg -i ${SGX_PSW_INSTALLER_DIR}/deb/*/*.deb

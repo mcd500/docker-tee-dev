@@ -40,6 +40,11 @@ RUN echo ' expect -c "     spawn \"$1\"     expect \"Do you want to install in c
 
 RUN chmod u+x exp.sh
 RUN ./exp.sh ${SGX_DIR}/linux/installer/bin/sgx_linux_x64_sdk_*.bin ${SGX_INSTALL_DIR}
+RUN  expect -c " \
+    spawn \"./linux/installer/bin/sgx_linux_x64_sdk_*.bin\" \
+    expect \"Do you want to install in current directory?\" { send \"no\r\" } \
+    expect \"Please input the directory which you want to install in\" { send \"${SGX_INSTALL_DIR}\r\" } \
+    expect eof "
 RUN echo ${SGX_INSTALL_DIR}
 RUN echo ${SGX_DIR}
 RUN ls -l ${SGX_INSTALL_DIR}

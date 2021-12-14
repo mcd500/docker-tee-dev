@@ -8,16 +8,6 @@ ENV USER_DIR=/home/user
 ENV FORCE_UNSAFE_CONFIGURE=1
 WORKDIR $USER_DIR
 
-ARG VERSION=v1.0.0
-RUN git clone https://github.com/keystone-enclave/keystone -b ${VERSION}
-
-ENV KEYSTONE_DIR=$USER_DIR/keystone
-#ENV RISCV=${KEYSTONE_DIR}/riscv64
-
-WORKDIR $KEYSTONE_DIR
-RUN git submodule sync --recursive
-RUN git submodule update --init --recursive
-
 # install keyedge
 RUN mkdir -p ${USER_DIR}/.ssh && ssh-keyscan -H github.com >> ${USER_DIR}/.ssh/known_hosts
 # RUN GIT_SSL_NO_VERIFY=1 git clone --recursive https://github.com/keystone-enclave/keyedge.git
@@ -37,6 +27,16 @@ ENV KEYEDGE_DIR=${USER_DIR}/keyedge
 #  make
 #ENV KEEDGER8R_DIR=${MAIN_DIR}/keedger8r
 #ENV PATH=${KEEDGER8R_DIR}:${PATH}
+
+ARG VERSION=v1.0.0
+RUN git clone https://github.com/keystone-enclave/keystone -b ${VERSION}
+
+ENV KEYSTONE_DIR=$USER_DIR/keystone
+#ENV RISCV=${KEYSTONE_DIR}/riscv64
+
+WORKDIR $KEYSTONE_DIR
+RUN git submodule sync --recursive
+RUN git submodule update --init --recursive
 
 # increase number of edge calls
 ENV KEYSTONE_SDK_DIR=${KEYSTONE_DIR}/sdk

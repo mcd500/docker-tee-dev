@@ -19,6 +19,9 @@ RUN mkdir -p ${USER_DIR}/.ssh && ssh-keyscan -H github.com >> ${USER_DIR}/.ssh/k
 # RUN GIT_SSL_NO_VERIFY=1 git clone --recursive https://github.com/keystone-enclave/keyedge.git
 RUN git clone https://github.com/keystone-enclave/keyedge.git
 WORKDIR $USER_DIR/keyedge
+RUN rm -fr flatcc
+RUN git clone https://github.com/dvidelabs/flatcc.git && \
+    git checkout 2abb8b5d12ef56cebeaa291d42832b5deb436783
 RUN git submodule sync --recursive
 RUN git submodule update --init --recursive
 #RUN git checkout f9406aba2117147cc54462ede4766e26f028ced9

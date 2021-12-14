@@ -61,6 +61,9 @@ RUN sed -i 's/MAX_EDGE_CALL 10$/MAX_EDGE_CALL 1000/' ${KEYSTONE_DIR}/sdk/include
 
 # KEYSTONE_SDK_DIR is the directory to install
 ENV KEYSTONE_SDK_DIR=${USER_DIR}/keystone-sdk
+ENV RISCV=${TOOLCHAIN_DIR}
+RUN ls -l ${TOOLCHAIN_DIR}
+RUN ls -l ${TOOLCHAIN_DIR}/bin
 RUN rm -rf build build64 && \
   mkdir -p build && \
   cd build && \

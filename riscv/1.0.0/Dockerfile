@@ -41,14 +41,14 @@ WORKDIR $KEYSTONE_DIR
 RUN git config submodule.riscv-gnu-toolchain.update none
 
 # shallow clone submodules ahead of time (Git must be > 2.11)
-RUN if [ ! -e linux/.git ]; then \
-      git clone --shallow-since=2020-05-15 https://github.com/torvalds/linux.git linux \
+RUN if [ ! -e linux/.git ]; then; \
+      git clone --shallow-since=2020-05-15 https://github.com/torvalds/linux.git linux; \
     fi
-RUN if [ ! -e buildroot/.git ]; then \
-      git clone --shallow-since=2020-04-15 https://github.com/buildroot/buildroot.git buildroot \
+RUN if [ ! -e buildroot/.git ]; then; \
+      git clone --shallow-since=2020-04-15 https://github.com/buildroot/buildroot.git buildroot; \
     fi
-RUN if [ ! -e qemu/.git ]; then \
-      git clone --shallow-since=2020-11-15 https://github.com/qemu/qemu.git qemu \
+RUN if [ ! -e qemu/.git ]; then; \
+      git clone --shallow-since=2020-11-15 https://github.com/qemu/qemu.git qemu; \
     fi
 RUN git submodule sync --recursive
 RUN git submodule update --init --recursive

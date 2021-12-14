@@ -40,6 +40,11 @@ RUN echo ' expect -c "     spawn \"$1\"     expect \"Do you want to install in c
 
 RUN chmod u+x exp.sh
 RUN ./exp.sh ${SGX_DIR}/linux/installer/bin/sgx_linux_x64_sdk_*.bin ${SGX_INSTALL_DIR}
+RUN echo ${SGX_INSTALL_DIR}
+RUN echo ${SGX_DIR}
+RUN ls -l ${SGX_INSTALL_DIR}
+RUN ls -l ${SGX_DIR}
+RUN find /opt/intel -iname include
 
 # build the Intel(R) SGX PSW and its installer
 # deb_psw_pkg includes `make psw`

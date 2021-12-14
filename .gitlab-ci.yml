@@ -27,7 +27,7 @@ tee-dev-keystone_1.0.0:
     tags:
         - shell117
     script:
-        - docker build --rm -t ${ORG}:keystone-1.0.0 ./riscv/1.0.0
+        - docker build --build-arg VERSION=v1.0.0 --rm -t ${ORG}:keystone-1.0.0 ./riscv/1.0.0
 
 docker-push-public:
     stage: push-public

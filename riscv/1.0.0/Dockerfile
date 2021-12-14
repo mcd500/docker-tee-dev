@@ -10,6 +10,8 @@ WORKDIR $USER_DIR
 
 ARG VERSION=v1.0.0
 RUN git clone https://github.com/keystone-enclave/keystone -b ${VERSION}
+RUN git submodule sync --recursive
+RUN git submodule update --init --recursive
 
 ENV KEYSTONE_DIR=$USER_DIR/keystone
 ENV RISCV=${KEYSTONE_DIR}/riscv64

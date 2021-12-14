@@ -23,7 +23,9 @@ ARG VERSION=
 RUN echo ${VERSION}
 RUN git clone https://github.com/intel/linux-sgx.git -b sgx_${VERSION}
 
-WORKDIR ${USER_DIR}/linux-sgx
+ENV SGX_DIR=${USER_DIR}/linux-sgx
+
+WORKDIR ${SGX_DIR}
 RUN ./download_prebuilt.sh
 RUN pwd; ls -l; echo 2
 RUN pwd; ls -l external/toolset/; echo 2
@@ -33,8 +35,10 @@ RUN cd external/toolset/ubuntu20.04/ && cp as ld ld.gold objdump /usr/local/bin
 RUN make sdk_install_pkg DEBUG=${DEBUG}
 
 # install SGX SDK(use expect command)
-COPY ./tmp/exp.sh /tmp/exp.sh
-RUN /tmp/exp.sh ${LINUX_SGX_DIR}/linux/installer/bin/sgx_linux_x64_sdk_*.bin ${SDK_PACKAGE_ROOT_DIR}
+#COPY ./tmp/exp.sh /tmp/exp.sh
+RUN echo ' expect -c "     spawn \"$1\"     expect \"Do you want to install in current directory?\" { send \"no\r\" }     expect \"Please input the directory which you want to install in\" { send \"$2\r\" }     expect eof "' > exp.sh
+
+RUN ./exp.sh ${SGX_DIR}/linux/installer/bin/sgx_linux_x64_sdk_*.bin ${SGX_INSTALL_DIR}
 
 # build the Intel(R) SGX PSW and its installer
 # deb_psw_pkg includes `make psw`

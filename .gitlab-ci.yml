@@ -20,7 +20,7 @@ tee-dev-optee_3.9.0:
     tags:
         - shell117
     script:
-        - docker build --rm -t ${ORG}:optee-3.9.0 ./optee/3.9.0
+        - docker build --build-arg VERSION=3.9.0 --rm -t ${ORG}:optee-3.9.0 ./optee/3.9.0
 
 tee-dev-keystone_1.0.0:
     stage: create-docker

@@ -15,6 +15,7 @@ ENV KEYSTONE_DIR=$USER_DIR/keystone
 ENV RISCV=${KEYSTONE_DIR}/riscv64
 
 # install keyedge
+RUN mkdir -p ${USER_DIR}/.ssh && ssh-keyscan -H github.com >> ${USER_DIR}/.ssh/known_hosts
 RUN GIT_SSL_NO_VERIFY=1 git clone --recursive https://github.com/keystone-enclave/keyedge.git
 WORKDIR $USER_DIR/keyedge
 RUN git checkout f9406aba2117147cc54462ede4766e26f028ced9 && \

@@ -37,9 +37,11 @@ ENV KEYEDGE_DIR=${USER_DIR}/keyedge
 #ENV PATH=${KEEDGER8R_DIR}:${PATH}
 
 # increase number of edge calls
+ENV KEYSTONE_SDK_DIR=${KEYSTONE_DIR}/sdk
+WORKDIR $KEYSTONE_SDK_DIR
+RUN git checkout v1.0.0
 RUN sed -i 's/MAX_EDGE_CALL 10$/MAX_EDGE_CALL 1000/' ${KEYSTONE_DIR}/sdk/include/edge/edge_common.h
-RUN cd ${KEYSTONE_DIR}/sdk && \
-  make -C build uninstall && \
+RUN make -C build uninstall && \
   rm -rf build build64 && \
   mkdir -p build && \
   cd build && \
@@ -48,8 +50,7 @@ RUN cd ${KEYSTONE_DIR}/sdk && \
   # Keystone SDK has been installed at ${KEYSTONE_SDK_DIR}
   make install
 
-RUN cd ${KEYSTONE_SDK_DIR} && \
-  git clone https://github.com/keystone-enclave/keystone-runtime.git -b v1.0.0 runtime && \
+RUN git clone https://github.com/keystone-enclave/keystone-runtime.git -b v1.0.0 runtime && \
   cd runtime && \
   touch .options_log && \
   make BITS=64 OPTIONS_FLAGS="-DUSE_FREEMEM"

@@ -10,7 +10,7 @@ ARG DEBUG=1
 # install intel sgx sdk
 
 ENV SGX_INSTALL_DIR=/opt/intel
-ENV SGX_SDK=${SDK_PACKAGE_ROOT_DIR}/sgxsdk
+ENV SGX_SDK=${SGX_INSTALL_DIR}/sgxsdk
 
 # see ${SGX_SDK}/environment
 ENV PATH=${PATH}:${SGX_SDK}/bin:${SGX_SDK}/bin/x64

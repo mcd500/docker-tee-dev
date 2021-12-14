@@ -36,6 +36,10 @@ RUN make sdk_install_pkg DEBUG=${DEBUG}
 
 # install SGX SDK(use expect command)
 #COPY ./tmp/exp.sh /tmp/exp.sh
+RUN pwd; ls -l
+RUN ls -l /home/user/linux-sgx/linux/
+RUN ls -l /home/user/linux-sgx/linux/installer/
+RUN ls -l /home/user/linux-sgx/linux/installer/bin/
 RUN echo ' expect -c "     spawn \"$1\"     expect \"Do you want to install in current directory?\" { send \"no\r\" }     expect \"Please input the directory which you want to install in\" { send \"$2\r\" }     expect eof "' > exp.sh
 
 RUN chmod u+x exp.sh

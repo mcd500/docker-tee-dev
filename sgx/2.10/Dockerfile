@@ -31,6 +31,7 @@ RUN pwd; ls -l; echo 2
 RUN pwd; ls -l external/toolset/; echo 2
 RUN pwd; ls -l external/toolset/ubuntu20.04/; echo 2
 RUN cd external/toolset/ubuntu20.04/ && cp as ld ld.gold objdump /usr/local/bin
+RUN cd ${SGX_DIR}
 
 RUN make sdk_install_pkg DEBUG=${DEBUG}
 

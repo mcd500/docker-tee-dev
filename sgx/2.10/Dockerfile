@@ -38,6 +38,7 @@ RUN make sdk_install_pkg DEBUG=${DEBUG}
 #COPY ./tmp/exp.sh /tmp/exp.sh
 RUN echo ' expect -c "     spawn \"$1\"     expect \"Do you want to install in current directory?\" { send \"no\r\" }     expect \"Please input the directory which you want to install in\" { send \"$2\r\" }     expect eof "' > exp.sh
 
+RUN chmod u+x exp.sh
 RUN ./exp.sh ${SGX_DIR}/linux/installer/bin/sgx_linux_x64_sdk_*.bin ${SGX_INSTALL_DIR}
 
 # build the Intel(R) SGX PSW and its installer

@@ -28,7 +28,8 @@ ENV KEYEDGE_DIR=${USER_DIR}/keyedge
 #ENV KEEDGER8R_DIR=${MAIN_DIR}/keedger8r
 #ENV PATH=${KEEDGER8R_DIR}:${PATH}
 
-ARG VERSION=v1.0.0
+WORKDIR $USER_DIR
+ARG VERSION=
 RUN git clone https://github.com/keystone-enclave/keystone -b ${VERSION}
 
 ENV KEYSTONE_DIR=$USER_DIR/keystone

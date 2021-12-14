@@ -81,6 +81,9 @@ ENV PATH=${PATH}:${SGX_SDK}/bin:${SGX_SDK}/bin/x64
 COPY --from=builder ${SGX_INSTALL_DIR} ${SGX_INSTALL_DIR}
 COPY --from=builder ${SGX_PSW_INSTALLER_DIR} ${SGX_PSW_INSTALLER_DIR}
 
+# This must executed before any other install or purge, error will occur
+RUN apt-get update
+
 # install *.deb in PSW except sgx-dcap-pccs because this package requires npm and nodejs, which cannot be installed via apt-get
 RUN rm ${SGX_PSW_INSTALLER_DIR}/deb/*/sgx-dcap-pccs*.deb && \
   dpkg -i ${SGX_PSW_INSTALLER_DIR}/deb/*/*.deb

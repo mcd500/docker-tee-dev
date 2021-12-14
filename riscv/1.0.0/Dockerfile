@@ -40,6 +40,8 @@ ENV KEYEDGE_DIR=${USER_DIR}/keyedge
 ENV KEYSTONE_SDK_DIR=${KEYSTONE_DIR}/sdk
 WORKDIR $KEYSTONE_SDK_DIR
 RUN git checkout v1.0.0
+RUN pwd; ls -l
+RUN cd $USER_DIR; find . -name edge_common.h
 RUN sed -i 's/MAX_EDGE_CALL 10$/MAX_EDGE_CALL 1000/' ${KEYSTONE_DIR}/sdk/include/edge/edge_common.h
 RUN make -C build uninstall && \
   rm -rf build build64 && \

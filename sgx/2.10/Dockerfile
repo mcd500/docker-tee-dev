@@ -14,7 +14,7 @@ ENV SGX_SDK=${SGX_INSTALL_DIR}/sgxsdk
 
 # see ${SGX_SDK}/environment
 ENV PATH=${PATH}:${SGX_SDK}/bin:${SGX_SDK}/bin/x64
-#ENV PKG_CONFIG_PATH=${SGX_SDK}/pkgconfig
+ENV PKG_CONFIG_PATH=${SGX_SDK}/pkgconfig
 ENV LD_LIBRARY_PATH=${SGX_SDK}/sdk_libs
 WORKDIR ${USER_DIR}
 

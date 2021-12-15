@@ -37,8 +37,8 @@ RUN ./fast-setup.sh
 
 WORKDIR $KEYSTONE_DIR
 
-# KEYSTONE_SDK_DIR is the directory to install
-ENV KEYSTONE_SDK_DIR=${KEYSTONE_DIR}/sdk
+# Set the KEYSTONE_SDK_DIR and RISCV directories
+ENV KEYSTONE_SDK_DIR=${KEYSTONE_DIR}/sdk/build64
 ENV RISCV=${TOOLCHAIN_DIR}
 
 RUN sed -i 's/MAX_EDGE_CALL 10$/MAX_EDGE_CALL 1000/' ${KEYSTONE_DIR}/sdk/include/edge/edge_common.h

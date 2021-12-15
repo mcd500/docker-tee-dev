@@ -3,6 +3,7 @@ FROM aistcpsec/tee-distro-dev:arm64-20.04 as builder
 ARG USER_DIR=/home/user
 ARG VERSION=
 ENV OPTEE_DIR=${USER_DIR}/optee
+ENV FORCE_UNSAFE_CONFIGURE=1
 
 # install repo command
 RUN git config --global user.name "dummy" && \

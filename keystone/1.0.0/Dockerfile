@@ -48,10 +48,9 @@ RUN sed -i 's/MAX_EDGE_CALL 10$/MAX_EDGE_CALL 1000/' ${KEYSTONE_DIR}/sdk/include
 RUN mkdir -p build && \
   cd build && \
   cmake .. && \
-  make
+  make && \
+  make image
 
-# For building the driver and tests and the have final images for Qemu
-RUN make image
 
 # RUN git clone https://github.com/keystone-enclave/keystone-runtime.git -b v1.0.0 runtime && \
 #   cd runtime && \

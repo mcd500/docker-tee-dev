@@ -1,11 +1,13 @@
 FROM aistcpsec/tee-distro-dev:arm64-20.04 as builder
 
-ARG USER_DIR=/home/user
-ARG VERSION=
+# Set the required env variables
+ENV USER_DIR=/home/user
 ENV OPTEE_DIR=${USER_DIR}/optee
 ENV FORCE_UNSAFE_CONFIGURE=1
 
-# install repo command
+ARG VERSION=
+
+# Install Android repo
 RUN git config --global user.name "dummy" && \
   git config --global user.email "dummy@gmail.com" && \
   git config --global color.ui false && \
@@ -13,14 +15,22 @@ RUN git config --global user.name "dummy" && \
   curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo && \
   chmod a+x ~/bin/repo
 
-# download
+# Get the source code for optee
 RUN mkdir -p ${OPTEE_DIR} && cd ${OPTEE_DIR} && \
   ~/bin/repo init -u https://github.com/OP-TEE/manifest.git -m qemu_v8.xml -b ${VERSION} && \
   ~/bin/repo sync -j4 --no-clone-bundle && \
   ln -s ${TOOLCHAIN_DIR} ${OPTEE_DIR}/toolchains
 
 WORKDIR ${OPTEE_DIR}/build
-RUN make
 
+# Build optee
+RUN make -j `nproc`
+
+# Second build to copy only optee-dir
 FROM aistcpsec/tee-distro-dev:arm64-20.04 as slim
+
+# set the env variables
+ENV OPTEE_DIR=${USER_DIR}/optee
+
 #copy only built opteedir
+COPY --from=builder ${OPTEE_DIR} ${OPTEE_DIR}

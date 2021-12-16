@@ -32,5 +32,8 @@ FROM aistcpsec/tee-distro-dev:arm64-20.04 as slim
 # set the env variables
 ENV OPTEE_DIR=${USER_DIR}/optee
 
+# To print the output of following command
+ARG DEBUG_DATE=
+
 #copy only built opteedir
 COPY --from=builder ${OPTEE_DIR} ${OPTEE_DIR}

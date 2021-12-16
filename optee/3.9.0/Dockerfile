@@ -23,8 +23,11 @@ RUN mkdir -p ${OPTEE_DIR} && cd ${OPTEE_DIR} && \
 
 WORKDIR ${OPTEE_DIR}/build
 
+# To print the output of following command
+ARG DEBUG_DATE=
+
 # Build optee
-RUN make -j `nproc`
+RUN make -j`nproc` V=1
 
 # Second build to copy only optee-dir
 FROM aistcpsec/tee-distro-dev:arm64-20.04 as slim
@@ -32,8 +35,7 @@ FROM aistcpsec/tee-distro-dev:arm64-20.04 as slim
 # set the env variables
 ENV OPTEE_DIR=${USER_DIR}/optee
 
-# To print the output of following command
-ARG DEBUG_DATE=
+
 
 #copy only built opteedir
 COPY --from=builder ${OPTEE_DIR} ${OPTEE_DIR}

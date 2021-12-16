@@ -27,7 +27,7 @@ WORKDIR ${OPTEE_DIR}/build
 ARG DEBUG_DATE=
 
 # Build optee
-RUN make -j`nproc` V=1
+RUN make -j4
 
 # Second build to copy only optee-dir
 FROM aistcpsec/tee-distro-dev:arm64-20.04 as slim

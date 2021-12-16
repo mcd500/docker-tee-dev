@@ -5,16 +5,11 @@ ENV USER_DIR=/home/user
 ENV OPTEE_DIR=${USER_DIR}/optee
 ENV FORCE_UNSAFE_CONFIGURE=1
 
-# To cope with the problem, https://github.com/OP-TEE/build/issues/424#issuecomment-631302208.
-# See also https://qiita.com/suin/items/856bf782d0d295352e51
-RUN apt-get update -y && apt-get install -y locales && \
-  locale-gen en_US.UTF-8
-ENV LANG=en_US.UTF-8
-ENV LANGUAGE=en_US:en
-ENV LC_ALL=en_US.UTF-8
-
 # To get the build args version information
 ARG VERSION=
+
+# Run as build-user
+USER build-user
 
 # Install Android repo
 RUN git config --global user.name "dummy" && \

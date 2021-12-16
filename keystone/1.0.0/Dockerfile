@@ -1,11 +1,15 @@
 FROM aistcpsec/tee-distro-dev:riscv-20.04 AS build
 # TO trasioteam/riscv_toolchain:keystone
 
-# # for tzdata
+# for tzdata
 ENV DEBIAN_FRONTEND=noninteractive
 ENV USER_DIR=/home/user
 # see http://192.168.100.100/rinkai/dockerfiles/-/jobs/5698
 ENV FORCE_UNSAFE_CONFIGURE=1
+
+# Run as build-user
+USER build-user
+
 WORKDIR $USER_DIR
 
 # install keyedge
@@ -25,7 +29,6 @@ ARG VERSION=
 RUN git clone https://github.com/keystone-enclave/keystone.git -b ${VERSION}
 
 ENV KEYSTONE_DIR=$USER_DIR/keystone
-#ENV RISCV=${KEYSTONE_DIR}/riscv64
 
 WORKDIR $KEYSTONE_DIR
 
@@ -41,28 +44,13 @@ WORKDIR $KEYSTONE_DIR
 ENV KEYSTONE_SDK_DIR=${KEYSTONE_DIR}/sdk/build64
 ENV RISCV=${TOOLCHAIN_DIR}
 
+# Increase the max edge calls
 RUN sed -i 's/MAX_EDGE_CALL 10$/MAX_EDGE_CALL 1000/' ${KEYSTONE_DIR}/sdk/include/edge/edge_common.h
 
-# RUN rm -rf ${KEYSTONE_SDK_DIR}/build ${KEYSTONE_SDK_DIR}/build64
-
+# Build the keystone sdk
 RUN mkdir -p build && \
   cd build && \
   cmake .. && \
   make && \
   make image
 
-
-# RUN git clone https://github.com/keystone-enclave/keystone-runtime.git -b v1.0.0 runtime && \
-#   cd runtime && \
-#   touch .options_log && \
-#   make BITS=64 OPTIONS_FLAGS="-DUSE_FREEMEM"
-
-# second build
-#FROM aistcpsec/tee-distro-dev:riscv-20.04 AS build
-
-#ENV MAIN_DIR=/home/main
-#ENV RISCV=${MAIN_DIR}/riscv
-#ENV PATH=$RISCV/bin:$PATH
-## see http://192.168.100.100/rinkai/dockerfiles/-/jobs/5698
-#WORKDIR $MAIN_DIR
-#COPY --from=build ${RISCV} ${RISCV}

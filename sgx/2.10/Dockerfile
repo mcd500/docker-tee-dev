@@ -14,9 +14,6 @@ ENV PATH=${PATH}:${SGX_SDK}/bin:${SGX_SDK}/bin/x64
 ENV PKG_CONFIG_PATH=${SGX_SDK}/pkgconfig
 ENV LD_LIBRARY_PATH=${SGX_SDK}/sdk_libs
 
-# Run as build-user
-USER build-user
-
 # Create and change to ${LINUX_SGX_DIR} 
 WORKDIR ${LINUX_SGX_DIR}
 

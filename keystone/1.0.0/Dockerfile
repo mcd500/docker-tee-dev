@@ -7,9 +7,6 @@ ENV USER_DIR=/home/user
 # see http://192.168.100.100/rinkai/dockerfiles/-/jobs/5698
 ENV FORCE_UNSAFE_CONFIGURE=1
 
-# Run as build-user
-USER build-user
-
 WORKDIR $USER_DIR
 
 # install keyedge

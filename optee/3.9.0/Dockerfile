@@ -8,9 +8,6 @@ ENV FORCE_UNSAFE_CONFIGURE=1
 # To get the build args version information
 ARG VERSION=
 
-# Run as build-user
-USER build-user
-
 # Install Android repo
 RUN git config --global user.name "dummy" && \
   git config --global user.email "dummy@gmail.com" && \

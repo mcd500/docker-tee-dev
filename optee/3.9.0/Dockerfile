@@ -21,13 +21,12 @@ RUN mkdir -p ${OPTEE_DIR} && cd ${OPTEE_DIR} && \
   ~/bin/repo sync -j4 --no-clone-bundle && \
   ln -s ${TOOLCHAIN_DIR} ${OPTEE_DIR}/toolchains
 
-RUN cd ${OPTEE_DIR}/build
 
 # To print the output of following command
 ARG DEBUG_DATE=
 
 # Build optee
-RUN make
+RUN cd ${OPTEE_DIR}/build && make
 
 # Second build to copy only optee-dir
 FROM aistcpsec/tee-distro-dev:arm64-20.04 as slim

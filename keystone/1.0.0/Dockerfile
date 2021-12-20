@@ -13,7 +13,7 @@ ENV FORCE_UNSAFE_CONFIGURE=1
 WORKDIR $USER_DIR
 
 # install keyedge
-RUN sudo mkdir -p ${USER_DIR}/.ssh && ssh-keyscan -H github.com >> ${USER_DIR}/.ssh/known_hosts
+RUN mkdir -p ${USER_DIR}/.ssh && ssh-keyscan -H github.com >> ${USER_DIR}/.ssh/known_hosts
 RUN git clone https://github.com/keystone-enclave/keyedge.git
 WORKDIR $USER_DIR/keyedge
 RUN rm -fr flatcc

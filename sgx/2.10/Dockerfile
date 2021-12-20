@@ -18,6 +18,7 @@ ENV PKG_CONFIG_PATH=${SGX_SDK}/pkgconfig
 ENV LD_LIBRARY_PATH=${SGX_SDK}/sdk_libs
 
 # Create and change to ${LINUX_SGX_DIR} 
+RUN mkdir -p ${LINUX_SGX_DIR} 
 WORKDIR ${LINUX_SGX_DIR}
 
 # Print the version from the command-line args
@@ -29,6 +30,7 @@ RUN git clone https://github.com/intel/linux-sgx.git -b sgx_${VERSION}
 
 # Set the sgx base dir
 ENV SGX_DIR=${LINUX_SGX_DIR}/linux-sgx
+RUN mkdir -p ${SGX_DIR} 
 WORKDIR ${SGX_DIR}
 
 # Download the prebuilt binaries for intel sgx

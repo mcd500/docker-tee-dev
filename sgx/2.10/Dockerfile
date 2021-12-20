@@ -1,6 +1,9 @@
 FROM aistcpsec/tee-distro-dev:x64-20.04 as builder
 # TO trasioteam2/intel_sgx:(2.8|2.10|2.11)
 
+# Make sure the following command run as build-user
+USER build-user
+
 # This is to prevent waiting for key type when installing tzdata
 ENV DEBIAN_FRONTEND=noninteractive
 ENV USER_DIR=/home/user
@@ -30,7 +33,7 @@ WORKDIR ${SGX_DIR}
 
 # Download the prebuilt binaries for intel sgx
 RUN ./download_prebuilt.sh
-RUN cd external/toolset/ubuntu20.04/ && cp as ld ld.gold objdump /usr/local/bin
+RUN cd external/toolset/ubuntu20.04/ && sudo cp as ld ld.gold objdump /usr/local/bin
 RUN cd ${SGX_DIR}
 
 # Make the intel sdk package
@@ -51,6 +54,7 @@ expect eof' > exp.sh
 RUN chmod u+x exp.sh
 
 # Execute the script
+RUN sudo mkdir -p ${SGX_INSTALL_DIR} && sudo chown -R build-user:build-user ${SGX_INSTALL_DIR}
 RUN ./exp.sh ${SGX_DIR}/linux/installer/bin/sgx_linux_x64_sdk_2.10.100.2.bin ${SGX_INSTALL_DIR}
 
 # Print the contents for confirmation
@@ -64,8 +68,16 @@ ENV DEB_BUILD_OPTIONS="nostrip"
 ENV SGX_PSW_INSTALLER_DIR=${SGX_DIR}/linux/installer
 RUN make deb_psw_pkg DEBUG=${DEBUG}
 
+
+# install *.deb in PSW except sgx-dcap-pccs because this package requires npm and nodejs, which cannot be installed via apt-get
+RUN rm ${SGX_PSW_INSTALLER_DIR}/deb/*/sgx-dcap-pccs*.deb && \
+  sudo dpkg -i ${SGX_PSW_INSTALLER_DIR}/deb/*/*.deb
+
 # Only with sdk binaries and no sources
-FROM ubuntu:20.04 as slim
+FROM aistcpsec/tee-distro-dev:x64-20.04 as slim
+
+# Make sure the following command run as build-user
+USER build-user
 
 # for tzdata
 ENV DEBIAN_FRONTEND=noninteractive
@@ -82,11 +94,7 @@ COPY --from=builder ${SGX_INSTALL_DIR} ${SGX_INSTALL_DIR}
 COPY --from=builder ${SGX_PSW_INSTALLER_DIR} ${SGX_PSW_INSTALLER_DIR}
 
 # This must executed before any other install or purge, error will occur
-RUN apt-get update
+RUN sudo apt-get update
 
 # Install the required packages
-RUN apt-get install -y libcurl4 libprotobuf17
-
-# install *.deb in PSW except sgx-dcap-pccs because this package requires npm and nodejs, which cannot be installed via apt-get
-RUN rm ${SGX_PSW_INSTALLER_DIR}/deb/*/sgx-dcap-pccs*.deb && \
-  dpkg -i ${SGX_PSW_INSTALLER_DIR}/deb/*/*.deb
+RUN sudo -E apt-get install -y libcurl4 libprotobuf17

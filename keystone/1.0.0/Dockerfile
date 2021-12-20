@@ -1,6 +1,9 @@
 FROM aistcpsec/tee-distro-dev:riscv-20.04 AS build
 # TO trasioteam/riscv_toolchain:keystone
 
+# Make sure the following command run as build-user
+USER build-user
+
 # for tzdata
 ENV DEBIAN_FRONTEND=noninteractive
 ENV USER_DIR=/home/user
@@ -10,7 +13,7 @@ ENV FORCE_UNSAFE_CONFIGURE=1
 WORKDIR $USER_DIR
 
 # install keyedge
-RUN mkdir -p ${USER_DIR}/.ssh && ssh-keyscan -H github.com >> ${USER_DIR}/.ssh/known_hosts
+RUN sudo mkdir -p ${USER_DIR}/.ssh && ssh-keyscan -H github.com >> ${USER_DIR}/.ssh/known_hosts
 RUN git clone https://github.com/keystone-enclave/keyedge.git
 WORKDIR $USER_DIR/keyedge
 RUN rm -fr flatcc

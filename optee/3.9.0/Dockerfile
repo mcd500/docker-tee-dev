@@ -1,5 +1,8 @@
 FROM aistcpsec/tee-distro-dev:arm64-20.04 as builder
 
+# Make sure the following command run as build-user
+USER build-user
+
 # Set the required env variables
 ENV USER_DIR=/home/user
 ENV OPTEE_DIR=${USER_DIR}/optee
@@ -9,9 +12,9 @@ ENV FORCE_UNSAFE_CONFIGURE=1
 ARG VERSION=
 
 # Install Android repo
-RUN git config --global user.name "dummy" && \
-  git config --global user.email "dummy@gmail.com" && \
-  git config --global color.ui false && \
+RUN sudo git config --global user.name "dummy" && \
+  sudo git config --global user.email "dummy@gmail.com" && \
+  sudo git config --global color.ui false && \
   mkdir ~/bin && \
   curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo && \
   chmod a+x ~/bin/repo
@@ -31,6 +34,9 @@ RUN cd ${OPTEE_DIR}/build && make -j`nproc`
 
 # Second build to copy only optee-dir
 FROM aistcpsec/tee-distro-dev:arm64-20.04 as slim
+
+# Make sure the following command run as build-user
+USER build-user
 
 # set the env variables
 ENV OPTEE_DIR=${USER_DIR}/optee

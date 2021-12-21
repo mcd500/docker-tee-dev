@@ -33,7 +33,8 @@ RUN repo sync -j4 --no-clone-bundle
 ENV OPT_ARM_TC=/opt/arm-tc
 ENV TOOLCHAIN_ROOT=${OPT_ARM_TC}
 WORKDIR ${OPTEE_DIR}/build
-RUN make -j`nproc`
+RUN ln -s ${TOOLCHAIN_ROOT} ${OPTEE_DIR}/toolchains
+RUN make TOOLCHAIN_ROOT=${OPT_ARM_TC} -j`nproc`
 
 ############################################################################
 # Second build to copy only optee-dir

@@ -86,11 +86,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV USER_DIR=/home/user
 ENV LINUX_SGX_DIR=${USER_DIR}/sgx
 ENV SGX_DIR=${LINUX_SGX_DIR}/linux-sgx
-ENV SGX_PSW_INSTALLER_DIR=${SGX_DIR}/linux/installer
 ENV SGX_INSTALL_DIR=/opt/intel
 ENV SGX_SDK=${SGX_INSTALL_DIR}/sgxsdk
 
 # see ${SGX_SDK}/environment
 ENV PATH=${PATH}:${SGX_SDK}/bin:${SGX_SDK}/bin/x64
 COPY --from=builder ${SGX_INSTALL_DIR} ${SGX_INSTALL_DIR}
-COPY --from=builder ${SGX_PSW_INSTALLER_DIR} ${SGX_PSW_INSTALLER_DIR}

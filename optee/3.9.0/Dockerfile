@@ -28,7 +28,7 @@ RUN repo sync -j4 --no-clone-bundle
 RUN ln -s ${TOOLCHAIN_DIR} ${OPTEE_DIR}/toolchains
 
 # To print the output of following command
-ARG DEBUG_DATE=
+#ARG DEBUG_DATE=
 
 # Build optee
 WORKDIR ${OPTEE_DIR}/build

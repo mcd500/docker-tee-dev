@@ -56,8 +56,8 @@ expect eof' > exp.sh
 RUN chmod u+x exp.sh
 
 # Execute the script
-RUN sudo mkdir -p ${SGX_INSTALL_DIR} && sudo chown -R build-user:build-user ${SGX_INSTALL_DIR}
-RUN ./exp.sh ${SGX_DIR}/linux/installer/bin/sgx_linux_x64_sdk_2.10.100.2.bin ${SGX_INSTALL_DIR}
+RUN sudo mkdir -p ${SGX_INSTALL_DIR} 
+RUN sudo ./exp.sh ${SGX_DIR}/linux/installer/bin/sgx_linux_x64_sdk_2.10.100.2.bin ${SGX_INSTALL_DIR}
 
 # Print the contents for confirmation
 RUN ls -l ${SGX_INSTALL_DIR}
@@ -94,9 +94,3 @@ ENV SGX_SDK=${SGX_INSTALL_DIR}/sgxsdk
 ENV PATH=${PATH}:${SGX_SDK}/bin:${SGX_SDK}/bin/x64
 COPY --from=builder ${SGX_INSTALL_DIR} ${SGX_INSTALL_DIR}
 COPY --from=builder ${SGX_PSW_INSTALLER_DIR} ${SGX_PSW_INSTALLER_DIR}
-
-# This must executed before any other install or purge, error will occur
-RUN sudo apt-get update
-
-# Install the required packages
-RUN sudo -E apt-get install -y libcurl4 libprotobuf17

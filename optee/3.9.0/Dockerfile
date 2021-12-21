@@ -25,12 +25,13 @@ RUN mkdir -p ${OPTEE_DIR}
 WORKDIR ${OPTEE_DIR}
 RUN repo init -u https://github.com/OP-TEE/manifest.git -m qemu_v8.xml -b ${VERSION}
 RUN repo sync -j4 --no-clone-bundle
-RUN ln -s ${TOOLCHAIN_DIR} ${OPTEE_DIR}/toolchains
 
 # To print the output of following command
 #ARG DEBUG_DATE=
 
 # Build optee
+ENV OPT_ARM_TC=/opt/arm-tc
+ENV TOOLCHAIN_ROOT=${OPT_ARM_TC}
 WORKDIR ${OPTEE_DIR}/build
 RUN make -j`nproc`
 

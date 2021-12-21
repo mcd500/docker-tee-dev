@@ -29,7 +29,6 @@ ARG VERSION=
 RUN git clone https://github.com/keystone-enclave/keystone.git -b ${VERSION}
 
 ENV KEYSTONE_DIR=$USER_DIR/keystone
-
 WORKDIR $KEYSTONE_DIR
 
 # This is for debugging purpose. This will show the output of the following command on console
@@ -40,6 +39,7 @@ WORKDIR $KEYSTONE_DIR
 RUN ./fast-setup.sh
 
 # Set the KEYSTONE_SDK_DIR and RISCV directories
+# KEYSTONE_SDK_DIR is where it is installed
 ENV KEYSTONE_SDK_DIR=${KEYSTONE_DIR}/sdk/build64
 ENV RISCV=${TOOLCHAIN_DIR}
 
@@ -51,5 +51,6 @@ RUN mkdir -p build && \
   cd build && \
   cmake .. && \
   make && \
+  make install && \
   make image
 

@@ -33,12 +33,11 @@ ENV KEYSTONE_DIR=$USER_DIR/keystone
 WORKDIR $KEYSTONE_DIR
 
 # This is for debugging purpose. This will show the output of the following command on console
-ARG DEBUG_DATE=
+#ARG DEBUG_DATE=
+#RUN echo ${DEBUG_DATE} > date
 
 # Run the fast-setup for keystone
 RUN ./fast-setup.sh
-
-WORKDIR $KEYSTONE_DIR
 
 # Set the KEYSTONE_SDK_DIR and RISCV directories
 ENV KEYSTONE_SDK_DIR=${KEYSTONE_DIR}/sdk/build64

@@ -47,10 +47,9 @@ ENV RISCV=${TOOLCHAIN_DIR}
 RUN sed -i 's/MAX_EDGE_CALL 10$/MAX_EDGE_CALL 1000/' ${KEYSTONE_DIR}/sdk/include/edge/edge_common.h
 
 # Build the keystone sdk
-RUN mkdir -p build && \
-  cd build && \
-  cmake .. && \
-  make && \
-  make install && \
-  make image
-
+RUN mkdir -p build
+WORKDIR $KEYSTONE_DIR/build
+RUN cmake .. $SDK_FLAGS
+RUN make
+#RUN make image
+RUN make install

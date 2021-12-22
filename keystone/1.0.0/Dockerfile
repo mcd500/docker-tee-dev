@@ -46,6 +46,13 @@ ENV RISCV=${TOOLCHAIN_DIR}
 # Increase the max edge calls
 RUN sed -i 's/MAX_EDGE_CALL 10$/MAX_EDGE_CALL 1000/' ${KEYSTONE_DIR}/sdk/include/edge/edge_common.h
 
+# Build the keystone image for qemu
+RUN mkdir -p build
+WORKDIR $KEYSTONE_DIR/build
+RUN cmake ..
+RUN make
+RUN make image
+
 # Build the keystone sdk
 WORKDIR $KEYSTONE_DIR/sdk
 RUN mkdir -p build

@@ -15,7 +15,7 @@ WORKDIR $USER_DIR
 # install keyedge
 ENV KEYEDGE_DIR=${USER_DIR}/keyedge
 RUN mkdir -p ${USER_DIR}/.ssh && ssh-keyscan -H github.com >> ${USER_DIR}/.ssh/known_hosts
-RUN git clone https://github.com/keystone-enclave/keyedge.git&& \
+RUN git clone https://github.com/keystone-enclave/keyedge.git && cd ${KEYEDGE_DIR} && \
     git checkout 6e9a0c3940ce9ac994cd5b0fcdfd3f470fc949f1
 
 WORKDIR $KEYEDGE_DIR

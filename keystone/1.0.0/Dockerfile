@@ -13,15 +13,17 @@ ENV FORCE_UNSAFE_CONFIGURE=1
 WORKDIR $USER_DIR
 
 # install keyedge
+ENV KEYEDGE_DIR=${USER_DIR}/keyedge
 RUN mkdir -p ${USER_DIR}/.ssh && ssh-keyscan -H github.com >> ${USER_DIR}/.ssh/known_hosts
-RUN git clone https://github.com/keystone-enclave/keyedge.git
-WORKDIR $USER_DIR/keyedge
-RUN rm -fr flatcc
-RUN git clone https://github.com/dvidelabs/flatcc.git && cd flatcc && \
-    git checkout 2abb8b5d12ef56cebeaa291d42832b5deb436783
+RUN git clone https://github.com/keystone-enclave/keyedge.git&& \
+    git checkout 6e9a0c3940ce9ac994cd5b0fcdfd3f470fc949f1
+
+WORKDIR $KEYEDGE_DIR
+RUN sed -i 's,git@github.com:dvidelabs/flatcc.git,https://github.com/dvidelabs/flatcc.git,g' ${KEYEDGE_DIR}/.gitmodules
+RUN git submodule sync --recursive
+RUN git submodule update --init --recursive
 RUN make
 
-ENV KEYEDGE_DIR=${USER_DIR}/keyedge
 
 # Install Keystone SDK
 WORKDIR $USER_DIR
@@ -61,3 +63,13 @@ RUN cmake .. $SDK_FLAGS
 RUN make
 #RUN make image
 RUN make install
+
+# Install keystone-runime
+RUN cd ${KEYSTONE_SDK_DIR} && \
+  git clone https://github.com/keystone-enclave/keystone-runtime.git -b v1.0.0 runtime && \
+  cd runtime && \
+  touch .options_log && \
+  make BITS=64 OPTIONS_FLAGS="-DUSE_FREEMEM"
+
+# Set to user dir 
+WORKDIR $USER_DIR

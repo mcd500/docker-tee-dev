@@ -48,3 +48,6 @@ ENV OPTEE_DIR=${USER_DIR}/optee
 
 #copy only built opteedir
 COPY --from=builder ${OPTEE_DIR} ${OPTEE_DIR}
+
+# Set to user dir 
+WORKDIR $USER_DIR

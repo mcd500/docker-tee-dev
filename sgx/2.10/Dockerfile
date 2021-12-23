@@ -89,3 +89,6 @@ ENV PATH=${PATH}:${SDK_INSTALL_DIR}/bin:${SDK_INSTALL_DIR}/bin/x64
 
 # copy only installed sgx binaries
 COPY --from=builder ${OPT_INTEL} ${OPT_INTEL}
+
+# Set to user dir 
+WORKDIR $USER_DIR

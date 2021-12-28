@@ -22,6 +22,13 @@ tee-dev-optee_3.9.0:
     script:
         - docker build --build-arg VERSION=3.9.0 --build-arg DEBUG_DATE=$(date +%s) --rm -t ${REPO}:optee-3.9.0 ./optee/3.9.0
 
+tee-dev-optee_3.10.0:
+    stage: create-docker
+    tags:
+        - shell117
+    script:
+        - docker build --build-arg VERSION=3.10.0 --build-arg DEBUG_DATE=$(date +%s) --rm -t ${REPO}:optee-3.10.0 ./optee/3.10.0
+
 tee-dev-keystone_1.0.0:
     stage: create-docker
     tags:
@@ -36,4 +43,5 @@ docker-push-public:
     script:
         - docker push ${REPO}:sgx-2.10
         - docker push ${REPO}:optee-3.9.0
+        - docker push ${REPO}:optee-3.10.0
         - docker push ${REPO}:keystone-1.0.0

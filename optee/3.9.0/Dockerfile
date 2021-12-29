@@ -8,6 +8,7 @@ ENV USER_DIR=/home/user
 ENV OPTEE_DIR=${USER_DIR}/optee
 #ENV FORCE_UNSAFE_CONFIGURE=1
 
+RUN mkdir -p ${OPTEE_DIR}
 WORKDIR $USER_DIR
 
 # Install Android repo
@@ -38,6 +39,7 @@ RUN cat ~/.gitconfig
 RUN cat ~/.git-credentials
 
 # downlaod
+WORKDIR ${OPTEE_DIR}
 RUN \
   CACHE_TAG=0; \
   repo init --depth=1 -u https://192.168.100.100/rinkai/build-optee-repo.git -m qemu_v8-teep.xml 1> /dev/null && \
@@ -47,7 +49,7 @@ RUN \
 ENV OPT_ARM_TC=/opt/arm-tc
 ENV TOOLCHAIN_ROOT=${OPT_ARM_TC}
 WORKDIR ${OPTEE_DIR}/build
-RUN sudo ln -s ${TOOLCHAIN_ROOT} ${OPTEE_DIR}/toolchains
+RUN ln -s ${TOOLCHAIN_ROOT} ${OPTEE_DIR}/toolchains
 RUN make TOOLCHAIN_ROOT=${OPT_ARM_TC} -j`nproc`
 
 RUN rm -f ~/.git-credentials

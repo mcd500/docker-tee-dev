@@ -15,7 +15,7 @@ tee-dev-optee_3.9.0:
     tags:
         - shell117
     script:
-        - docker build --build-arg VERSION=3.9.0 --build-arg DEBUG_DATE=$(date +%s) --rm -t ${REPO}:optee-3.9.0 ./optee/3.9.0
+        - docker build --build-arg VERSION=3.9.0 --build-arg DEBUG_DATE=$(date +%s) --build-arg CI_JOB_TOKEN=${CI_JOB_TOKEN} --rm -t ${REPO}:optee-3.9.0 ./optee/3.9.0
         - docker push ${REPO}:optee-3.9.0
 
 tee-dev-optee_3.10.0:

@@ -8,7 +8,7 @@ tee-dev-sgx_2.10:
     tags:
         - shell115
     script:
-        - docker build --build-arg VERSION=2.10 --build-arg DEBUG_DATE=$(date +%s) --rm -t ${REPO}:sgx-2.10 ./sgx/2.10
+        - docker build --build-arg VERSION=2.10 --build-arg DEBUG_DATE=$(date +%s) --build-arg CI_JOB_TOKEN=${CI_JOB_TOKEN} --rm -t ${REPO}:sgx-2.10 ./sgx/2.10
         - docker push ${REPO}:sgx-2.10
 
 tee-dev-optee_3.9.0:

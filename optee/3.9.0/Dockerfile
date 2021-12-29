@@ -9,32 +9,39 @@ ENV OPTEE_DIR=${USER_DIR}/optee
 #ENV FORCE_UNSAFE_CONFIGURE=1
 
 # Install Android repo
-RUN sudo git config --global user.name "dummy" && \
-  sudo git config --global user.email "dummy@gmail.com" && \
-  sudo git config --global color.ui false && \
+RUN git config --global user.name "dummy" && \
+  git config --global user.email "dummy@gmail.com" && \
+  git config --global color.ui false && \
   mkdir ${USER_DIR}/bin && \
   curl https://storage.googleapis.com/git-repo-downloads/repo > ${USER_DIR}/bin/repo && \
   chmod a+x ${USER_DIR}/bin/repo
-ENV PATH=${USER_DIR}/bin:${PATH}
 
 # To get the build args version information
 ARG VERSION=
 
-# Get the source code for optee
-RUN mkdir -p ${OPTEE_DIR}
-WORKDIR ${OPTEE_DIR}
-RUN repo init -u https://github.com/OP-TEE/manifest.git -m qemu_v8.xml -b ${VERSION}
-RUN repo sync -j4 --no-clone-bundle
 
-# To print the output of following command
-#ARG DEBUG_DATE=
+# For fetching build-optee-repo.git
+RUN git config --global credential.helper 'store --file ~/.git-credentials' && \
+  git config --global user.name gitlab-ci-token && \
+  git config --global http.sslVerify false
 
 # Build optee
 ENV OPT_ARM_TC=/opt/arm-tc
 ENV TOOLCHAIN_ROOT=${OPT_ARM_TC}
-WORKDIR ${OPTEE_DIR}/build
-RUN ln -s ${TOOLCHAIN_ROOT} ${OPTEE_DIR}/toolchains
-RUN make TOOLCHAIN_ROOT=${OPT_ARM_TC} -j`nproc`
+
+# downlaod and build
+RUN \
+  CACHE_TAG=0; \
+  cd ${MAIN_DIR}; \
+  mkdir -p ${OPTEE_DIR} && cd ${OPTEE_DIR} && \
+  PATH=${PATH}:~/bin && \
+  repo init --depth=1 -u https://192.168.100.100/rinkai/build-optee-repo.git -m qemu_v8-teep.xml 1> /dev/null && \
+  repo sync -j4 -f --force-sync --no-clone-bundle --no-tags 1> /dev/null && \
+  cd build; \
+  ln -s ${TOOLCHAIN_ROOT} ${OPTEE_DIR}/toolchains && \
+  make TOOLCHAIN_ROOT=${OPT_ARM_TC} -j`nproc` 1> /dev/null
+
+RUN rm -f ~/.git-credentials
 
 ############################################################################
 # Second build to copy only optee-dir

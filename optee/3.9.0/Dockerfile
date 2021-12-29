@@ -17,7 +17,7 @@ RUN git config --global user.name "dummy" && \
   mkdir ${USER_DIR}/bin && \
   curl https://storage.googleapis.com/git-repo-downloads/repo > ${USER_DIR}/bin/repo && \
   chmod a+x ${USER_DIR}/bin/repo
-RUN PATH=${PATH}:~/bin
+ENV PATH=${PATH}:${USER_DIR}/bin
 
 # To get the build args version information
 ARG VERSION=

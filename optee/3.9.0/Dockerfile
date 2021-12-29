@@ -27,6 +27,7 @@ ARG DEBUG_DATE=
 RUN echo ${DEBUG_DATE} > date
 
 # For fetching build-optee-repo.git
+ARG CI_JOB_TOKEN=
 RUN git config --global user.name gitlab-ci-token
 RUN git config --global http.sslVerify false
 RUN git config --global credential.helper 'store --file ~/.git-credentials'

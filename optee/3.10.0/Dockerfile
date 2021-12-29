@@ -29,6 +29,7 @@ RUN repo sync -j4 --no-clone-bundle
 
 # To print the output of following command
 #ARG DEBUG_DATE=
+#RUN echo ${DEBUG_DATE} > date
 
 # Build optee
 ENV OPT_ARM_TC=/opt/arm-tc

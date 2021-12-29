@@ -8,6 +8,9 @@ ENV USER_DIR=/home/user
 ENV OPTEE_DIR=${USER_DIR}/optee
 #ENV FORCE_UNSAFE_CONFIGURE=1
 
+RUN mkdir -p ${OPTEE_DIR}
+WORKDIR ${OPTEE_DIR}
+
 # Install Android repo
 RUN sudo git config --global user.name "dummy" && \
   sudo git config --global user.email "dummy@gmail.com" && \
@@ -21,8 +24,6 @@ ENV PATH=${USER_DIR}/bin:${PATH}
 ARG VERSION=
 
 # Get the source code for optee
-RUN mkdir -p ${OPTEE_DIR}
-WORKDIR ${OPTEE_DIR}
 RUN repo init -u https://github.com/OP-TEE/manifest.git -m qemu_v8.xml -b ${VERSION}
 RUN repo sync -j4 --no-clone-bundle
 

@@ -8,6 +8,8 @@ ENV USER_DIR=/home/user
 ENV OPTEE_DIR=${USER_DIR}/optee
 #ENV FORCE_UNSAFE_CONFIGURE=1
 
+WORKDIR $USER_DIR
+
 # Install Android repo
 RUN git config --global user.name "dummy" && \
   git config --global user.email "dummy@gmail.com" && \
@@ -15,6 +17,7 @@ RUN git config --global user.name "dummy" && \
   mkdir ${USER_DIR}/bin && \
   curl https://storage.googleapis.com/git-repo-downloads/repo > ${USER_DIR}/bin/repo && \
   chmod a+x ${USER_DIR}/bin/repo
+RUN PATH=${PATH}:~/bin
 
 # To get the build args version information
 ARG VERSION=
@@ -39,9 +42,6 @@ ENV TOOLCHAIN_ROOT=${OPT_ARM_TC}
 # downlaod and build
 RUN \
   CACHE_TAG=0; \
-  cd ${MAIN_DIR}; \
-  mkdir -p ${OPTEE_DIR} && cd ${OPTEE_DIR} && \
-  PATH=${PATH}:~/bin && \
   repo init --depth=1 -u https://192.168.100.100/rinkai/build-optee-repo.git -m qemu_v8-teep.xml 1> /dev/null && \
   repo sync -j4 -f --force-sync --no-clone-bundle --no-tags 1> /dev/null && \
   cd build; \

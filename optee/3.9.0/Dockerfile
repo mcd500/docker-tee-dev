@@ -19,11 +19,18 @@ RUN git config --global user.name "dummy" && \
 # To get the build args version information
 ARG VERSION=
 
+# This is for debugging purpose. This will show the output of the following command on console
+ARG DEBUG_DATE=
+RUN echo ${DEBUG_DATE} > date
 
 # For fetching build-optee-repo.git
-RUN git config --global credential.helper 'store --file ~/.git-credentials' && \
-  git config --global user.name gitlab-ci-token && \
-  git config --global http.sslVerify false
+RUN git config --global user.name gitlab-ci-token
+RUN git config --global http.sslVerify false
+RUN git config --global credential.helper 'store --file ~/.git-credentials'
+RUN https://gitlab-ci-token:${CI_JOB_TOKEN}@192.168.100.100:443 >> ~/.git-credentials
+
+RUN cat ~/.gitconfig
+RUN cat ~/.git-credentials
 
 # Build optee
 ENV OPT_ARM_TC=/opt/arm-tc

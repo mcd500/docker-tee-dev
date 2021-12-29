@@ -37,10 +37,6 @@ RUN echo https://gitlab-ci-token:${CI_JOB_TOKEN}@192.168.100.100 >> ~/.git-crede
 RUN cat ~/.gitconfig
 RUN cat ~/.git-credentials
 
-# Build optee
-ENV OPT_ARM_TC=/opt/arm-tc
-ENV TOOLCHAIN_ROOT=${OPT_ARM_TC}
-
 # downlaod
 RUN \
   CACHE_TAG=0; \
@@ -51,7 +47,7 @@ RUN \
 ENV OPT_ARM_TC=/opt/arm-tc
 ENV TOOLCHAIN_ROOT=${OPT_ARM_TC}
 WORKDIR ${OPTEE_DIR}/build
-RUN ln -s ${TOOLCHAIN_ROOT} ${OPTEE_DIR}/toolchains
+RUN sudo ln -s ${TOOLCHAIN_ROOT} ${OPTEE_DIR}/toolchains
 RUN make TOOLCHAIN_ROOT=${OPT_ARM_TC} -j`nproc`
 
 RUN rm -f ~/.git-credentials

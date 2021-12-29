@@ -4,44 +4,31 @@ variables:
 before_script:
     - docker login -u ${DOCKERHUB_USER} -p ${DOCKERHUB_PASSWD}
 
-stages:
-    - create-docker
-    - push-public
-
 tee-dev-sgx_2.10:
-    stage: create-docker
     tags:
         - shell115
     script:
         - docker build --build-arg VERSION=2.10 --build-arg DEBUG_DATE=$(date +%s) --rm -t ${REPO}:sgx-2.10 ./sgx/2.10
+        - docker push ${REPO}:sgx-2.10
 
 tee-dev-optee_3.9.0:
-    stage: create-docker
     tags:
         - shell117
     script:
         - docker build --build-arg VERSION=3.9.0 --build-arg DEBUG_DATE=$(date +%s) --rm -t ${REPO}:optee-3.9.0 ./optee/3.9.0
+        - docker push ${REPO}:optee-3.9.0
 
 tee-dev-optee_3.10.0:
-    stage: create-docker
     tags:
         - shell121
     script:
         - docker build --build-arg VERSION=3.10.0 --build-arg DEBUG_DATE=$(date +%s) --rm -t ${REPO}:optee-3.10.0 ./optee/3.10.0
+        - docker push ${REPO}:optee-3.10.0
 
 tee-dev-keystone_1.0.0:
-    stage: create-docker
     tags:
-        - shell117
+        - shell121
     script:
         - docker build --build-arg VERSION=v1.0.0 --build-arg DEBUG_DATE=$(date +%s) --rm -t ${REPO}:keystone-1.0.0 ./keystone/1.0.0
-
-docker-push-public:
-    stage: push-public
-    tags:
-        - shell117
-    script:
-        - docker push ${REPO}:sgx-2.10
-        - docker push ${REPO}:optee-3.9.0
-        - docker push ${REPO}:optee-3.10.0
         - docker push ${REPO}:keystone-1.0.0
+

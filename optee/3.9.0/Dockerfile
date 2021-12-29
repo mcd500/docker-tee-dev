@@ -32,6 +32,7 @@ RUN git config --global user.name gitlab-ci-token
 RUN git config --global http.sslVerify false
 RUN git config --global credential.helper 'store --file ~/.git-credentials'
 RUN echo https://gitlab-ci-token:${CI_JOB_TOKEN}@192.168.100.100:443 >> ~/.git-credentials
+RUN echo https://gitlab-ci-token:${CI_JOB_TOKEN}@192.168.100.100 >> ~/.git-credentials
 
 RUN cat ~/.gitconfig
 RUN cat ~/.git-credentials

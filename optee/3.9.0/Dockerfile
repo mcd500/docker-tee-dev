@@ -24,8 +24,8 @@ ENV PATH=${PATH}:${USER_DIR}/bin
 ARG VERSION=
 
 # This is for debugging purpose. This will show the output of the following command on console
-ARG DEBUG_DATE=
-RUN echo ${DEBUG_DATE} > date
+#ARG DEBUG_DATE=
+#RUN echo ${DEBUG_DATE} > date
 
 # For fetching build-optee-repo.git
 ARG CI_JOB_TOKEN=
@@ -35,15 +35,15 @@ RUN git config --global credential.helper 'store --file ~/.git-credentials'
 RUN echo https://gitlab-ci-token:${CI_JOB_TOKEN}@192.168.100.100:443 >> ~/.git-credentials
 RUN echo https://gitlab-ci-token:${CI_JOB_TOKEN}@192.168.100.100 >> ~/.git-credentials
 
-RUN cat ~/.gitconfig
-RUN cat ~/.git-credentials
+#RUN cat ~/.gitconfig
+#RUN cat ~/.git-credentials
 
 # downlaod
 WORKDIR ${OPTEE_DIR}
 RUN \
   CACHE_TAG=0; \
   repo init --depth=1 -u https://192.168.100.100/rinkai/build-optee-repo.git -m qemu_v8-teep.xml 1> /dev/null && \
-  repo sync -j4 -f --force-sync --no-clone-bundle --no-tags 1> /dev/null
+  repo sync -j4 --force-sync --no-clone-bundle --no-tags 1> /dev/null
 
 # Build optee
 ENV OPT_ARM_TC=/opt/arm-tc

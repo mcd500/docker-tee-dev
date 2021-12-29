@@ -41,14 +41,18 @@ RUN cat ~/.git-credentials
 ENV OPT_ARM_TC=/opt/arm-tc
 ENV TOOLCHAIN_ROOT=${OPT_ARM_TC}
 
-# downlaod and build
+# downlaod
 RUN \
   CACHE_TAG=0; \
   repo init --depth=1 -u https://192.168.100.100/rinkai/build-optee-repo.git -m qemu_v8-teep.xml 1> /dev/null && \
-  repo sync -j4 -f --force-sync --no-clone-bundle --no-tags 1> /dev/null && \
-  cd build; \
-  ln -s ${TOOLCHAIN_ROOT} ${OPTEE_DIR}/toolchains && \
-  make TOOLCHAIN_ROOT=${OPT_ARM_TC} -j`nproc` 1> /dev/null
+  repo sync -j4 -f --force-sync --no-clone-bundle --no-tags 1> /dev/null
+
+# Build optee
+ENV OPT_ARM_TC=/opt/arm-tc
+ENV TOOLCHAIN_ROOT=${OPT_ARM_TC}
+WORKDIR ${OPTEE_DIR}/build
+RUN ln -s ${TOOLCHAIN_ROOT} ${OPTEE_DIR}/toolchains
+RUN make TOOLCHAIN_ROOT=${OPT_ARM_TC} -j`nproc`
 
 RUN rm -f ~/.git-credentials
 

@@ -1,4 +1,5 @@
 FROM aistcpsec/tee-distro-dev:arm64-20.04 as builder
+# TO aistcpsec/tee-dev:optee-3.10.0
 
 # Make sure the following command run as build-user
 USER build-user

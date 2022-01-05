@@ -1,5 +1,5 @@
 FROM aistcpsec/tee-distro-dev:riscv-20.04 AS build
-# TO trasioteam/riscv_toolchain:keystone
+# TO aistcpsec/tee-dev:keystone-1.0.0
 
 # Make sure the following command run as build-user
 USER build-user

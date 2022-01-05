@@ -1,5 +1,5 @@
 FROM aistcpsec/tee-distro-dev:x64-20.04 as builder
-# TO trasioteam2/intel_sgx:(2.8|2.10|2.11)
+# TO aistcpsec/tee-dev:sgx-2.10
 
 # Make sure the following command run as build-user
 USER build-user

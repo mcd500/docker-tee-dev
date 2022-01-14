@@ -83,6 +83,7 @@ ENV USER_DIR=/home/user
 
 ENV OPT_INTEL=/opt/intel
 ENV SDK_INSTALL_DIR=${OPT_INTEL}/sgxsdk
+ENV SGX_SDK=${SDK_INSTALL_DIR}
 
 # see ${SDK_INSTALL_DIR}/environment
 ENV PATH=${PATH}:${SDK_INSTALL_DIR}/bin:${SDK_INSTALL_DIR}/bin/x64

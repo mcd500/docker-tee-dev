@@ -59,6 +59,7 @@ COPY --from=builder ${OPTEE_DIR}/out ${OPTEE_DIR}/out
 COPY --from=builder ${OPTEE_DIR}/out-br ${OPTEE_DIR}/out-br
 COPY --from=builder ${OPTEE_DIR}/qemu ${OPTEE_DIR}/qemu
 COPY --from=builder ${OPTEE_DIR}/trusted-firmware-a/build ${OPTEE_DIR}/trusted-firmware-a/build
+COPY --from=builder ${OPTEE_DIR}/toolchains ${OPTEE_DIR}/toolchains
 
 # Set to user dir 
 WORKDIR $USER_DIR

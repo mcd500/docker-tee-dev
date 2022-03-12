@@ -64,5 +64,5 @@ COPY --from=builder ${OPTEE_DIR}/optee_client/public ${OPTEE_DIR}/optee_client/p
 COPY --from=builder ${OPTEE_DIR}/trusted-firmware-a/build ${OPTEE_DIR}/trusted-firmware-a/build
 RUN sudo ln -s ${TOOLCHAIN_DIR} ${OPTEE_DIR}/toolchains
 
-# Set to user dir 
+# Set to user dir
 WORKDIR $USER_DIR

@@ -71,5 +71,5 @@ RUN cd ${KEYSTONE_SDK_DIR} && \
   touch .options_log && \
   make BITS=64 OPTIONS_FLAGS="-DUSE_FREEMEM"
 
-# Set to user dir 
+# Set to user dir
 WORKDIR $USER_DIR

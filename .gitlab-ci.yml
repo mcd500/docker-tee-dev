@@ -22,7 +22,7 @@ tee-dev-sgx_2.10:
 
 tee-dev-optee_3.10.0:
     tags:
-        - 
+        - fast-shells
     script:
         - docker pull aistcpsec/tee-distro-dev:arm64-20.04
         - docker build --build-arg VERSION=3.10.0 --build-arg DEBUG_DATE=$(date +%s) --rm -t ${REPO}:optee-3.10.0 ./optee/3.10.0

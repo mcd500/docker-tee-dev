@@ -28,6 +28,9 @@ ARG VERSION=
 RUN repo init -u https://github.com/OP-TEE/manifest.git -m qemu_v8.xml -b ${VERSION}
 RUN repo sync -j4 --no-clone-bundle
 
+RUN sed -i '/MBEDTLS_ECDSA_C/a#define MBEDTLS_HMAC_DRBG_C' optee_os/lib/libmbedtls/include/mbedtls_config_uta.h
+RUN sed -i '/MBEDTLS_ECDSA_C/a#define MBEDTLS_ECDSA_DETERMINISTIC' optee_os/lib/libmbedtls/include/mbedtls_config_uta.h
+
 # To print the output of following command
 #ARG DEBUG_DATE=
 #RUN echo ${DEBUG_DATE} > date

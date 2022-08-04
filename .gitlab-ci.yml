@@ -22,6 +22,7 @@ tee-dev-optee_3.9.0:
         - todo # skip this ci
     tags:
         - fast-shells
+    stage: docker
     script:
         - docker pull aistcpsec/tee-distro-dev:arm64-20.04
         - docker build --build-arg VERSION=3.9.0 --build-arg DEBUG_DATE=$(date +%s) --build-arg CI_JOB_TOKEN=${CI_JOB_TOKEN} --rm -t ${REPO}:optee-3.9.0 ./optee/3.9.0

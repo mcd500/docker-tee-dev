@@ -56,14 +56,9 @@ ENV OPTEE_DIR=${USER_DIR}/optee
 #copy only the required dir
 COPY --from=builder ${OPTEE_DIR}/optee_os/out ${OPTEE_DIR}/optee_os/out
 COPY --from=builder ${OPTEE_DIR}/build/zynqmp.mk ${OPTEE_DIR}/build/zynqmp.mk
-COPY --from=builder ${OPTEE_DIR}/edk2/Build ${OPTEE_DIR}/edk2/Build
-COPY --from=builder ${OPTEE_DIR}/edk2/NetworkPkg ${OPTEE_DIR}/edk2/NetworkPkg
 COPY --from=builder ${OPTEE_DIR}/linux/arch ${OPTEE_DIR}/linux/arch
 COPY --from=builder ${OPTEE_DIR}/out ${OPTEE_DIR}/out
 COPY --from=builder ${OPTEE_DIR}/out-br ${OPTEE_DIR}/out-br
-COPY --from=builder ${OPTEE_DIR}/qemu/aarch64-softmmu ${OPTEE_DIR}/qemu/aarch64-softmmu
-COPY --from=builder ${OPTEE_DIR}/qemu/pc-bios ${OPTEE_DIR}/qemu/pc-bios
-COPY --from=builder ${OPTEE_DIR}/qemu/pc-bios ${OPTEE_DIR}/qemu/pc-bios
 COPY --from=builder ${OPTEE_DIR}/optee_client/public ${OPTEE_DIR}/optee_client/public
 COPY --from=builder ${OPTEE_DIR}/trusted-firmware-a/build ${OPTEE_DIR}/trusted-firmware-a/build
 RUN sudo ln -s ${TOOLCHAIN_DIR} ${OPTEE_DIR}/toolchains

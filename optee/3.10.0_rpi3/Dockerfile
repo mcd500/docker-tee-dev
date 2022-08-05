@@ -26,7 +26,7 @@ ARG VERSION=
 
 # Get the source code for optee
 
-RUN repo init -u https://github.com/OP-TEE/manifest.git -m qemu_rpi3.xml -b ${VERSION}
+RUN repo init -u https://github.com/OP-TEE/manifest.git -m rpi3.xml -b ${VERSION}
 RUN repo sync -j4 --no-clone-bundle
 
 RUN sed -i '/MBEDTLS_ECDSA_C/a#define MBEDTLS_HMAC_DRBG_C' optee_os/lib/libmbedtls/include/mbedtls_config_uta.h

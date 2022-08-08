@@ -3,6 +3,7 @@ variables:
 
 stages:
     - docker
+    - bootloader
     - trigger
 
 before_script:
@@ -46,6 +47,15 @@ tee-dev-optee_3.10.0_rpi3:
         - docker pull aistcpsec/tee-distro-dev:arm64-20.04
         - docker build --build-arg VERSION=3.10.0 --build-arg DEBUG_DATE=$(date +%s) --rm -t ${REPO}:optee-3.10.0_rpi3 ./optee/3.10.0_rpi3
         - docker push ${REPO}:optee-3.10.0_rpi3
+
+tee-dev-optee-3.10.0_rpi3_netboot_bootloader:
+    tags:
+        - fast-shells
+    stage: bootloader
+    script:
+        - docker pull aistcpsec/tee-dev:optee-3.10.0_rpi3
+        - docker build --build-arg VERSION=3.10.0 --build-arg DEBUG_DATE=$(date +%s) --rm -t ${REPO}:optee-3.10.0_rpi3_netboot_bootloader ./optee/3.10.0_rpi3_netboot_bootloader
+        - docker push ${REPO}:optee-3.10.0_rpi3_netboot_bootloader
 
 tee-dev-keystone_1.0.0:
     tags:

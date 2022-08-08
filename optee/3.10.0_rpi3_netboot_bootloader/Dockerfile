@@ -24,13 +24,15 @@ RUN sed -i 's/gatewayip=192.168.1.1/gatewayip=192.168.100.1/g' ${UBOOT_ENV_FILE}
 
 # Regenerate the uboot.env
 RUN cd $OPTEE_DIR/build && \
-    make u-boot-env-clean && \
-    make u-boot-env
+    sudo make u-boot-env-clean && \
+    sudo make u-boot-env
 
 
 # create boot.img in ${BOOT_IMG_PATH}
-RUN gunzip -cd ${ROOTFS_ARCHIVE} | cpio -idmv "boot/*" && \
-  cp $OPTEE_DIR/out/uboot.env ${BOOT_DIR} && \
-  dd if=/dev/zero of=${BOOT_IMG_PATH} bs=32M count=1 && \
-  mkfs.vfat -F16 -n BOOT ${BOOT_IMG_PATH} && \
-  find ${BOOT_DIR} -type f -exec basename {} \; | xargs -I{} mcopy -v -i ${BOOT_IMG_PATH} boot/{} ::{}
+RUN gunzip -cd ${ROOTFS_ARCHIVE} | sudo cpio -idmv "boot/*" && \
+  mkdir -p ${BOOT_DIR} && \
+  sudo cp $OPTEE_DIR/out/uboot.env ${BOOT_DIR} && \
+  sudo dd if=/dev/zero of=${BOOT_IMG_PATH} bs=32M count=1 && \
+  sudo mkfs.vfat -F16 -n BOOT ${BOOT_IMG_PATH} && \
+  sudo find ${BOOT_DIR} -type f -exec basename {} \; | sudo xargs -I{} mcopy -v -i ${BOOT_IMG_PATH} boot/{} ::{} && \
+  sudo chown build-user:build-user ${BOOT_IMG_PATH}

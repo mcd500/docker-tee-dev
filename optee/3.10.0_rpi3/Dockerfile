@@ -55,7 +55,8 @@ ENV OPTEE_DIR=${USER_DIR}/optee
 
 #copy only the required dir
 COPY --from=builder ${OPTEE_DIR}/optee_os/out ${OPTEE_DIR}/optee_os/out
-COPY --from=builder ${OPTEE_DIR}/build/ ${OPTEE_DIR}/build/
+COPY --from=builder ${OPTEE_DIR}/build ${OPTEE_DIR}/build
+COPY --from=builder ${OPTEE_DIR}/u-boot ${OPTEE_DIR}/u-boot
 COPY --from=builder ${OPTEE_DIR}/linux/arch ${OPTEE_DIR}/linux/arch
 COPY --from=builder ${OPTEE_DIR}/out ${OPTEE_DIR}/out
 COPY --from=builder ${OPTEE_DIR}/out-br ${OPTEE_DIR}/out-br

@@ -7,7 +7,7 @@ USER build-user
 RUN sudo apt-get update && \
   sudo apt-get install -y dosfstools
 
-ENV MAIN_DIR=/home/main
+ENV MAIN_DIR=/home/user
 ENV BOOT_DIR=${MAIN_DIR}/boot
 ENV ROOTFS_ARCHIVE=${OPTEE_DIR}/out-br/images/rootfs.cpio.gz
 ENV BOOT_IMG_PATH=${MAIN_DIR}/boot.img

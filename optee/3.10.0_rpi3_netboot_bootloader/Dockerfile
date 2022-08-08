@@ -1,8 +1,11 @@
 FROM aistcpsec/tee-dev:optee-3.10.0_rpi3
 # TO aistcpsec/tee-dev:optee-3.10.0_rpi3_netboot_bootloader
 
-RUN apt-get update && \
-  apt-get install -y dosfstools
+# Make sure the following command run as build-user
+USER build-user
+
+RUN sudo apt-get update && \
+  sudo apt-get install -y dosfstools
 
 ENV MAIN_DIR=/home/main
 ENV BOOT_DIR=${MAIN_DIR}/boot

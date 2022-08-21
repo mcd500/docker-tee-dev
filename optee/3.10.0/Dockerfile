@@ -11,9 +11,9 @@ ENV USER_DIR=/home/user
 WORKDIR ${USER_DIR}
 
 # Install Android repo
-RUN sudo git config --global user.name "dummy" && \
-  sudo git config --global user.email "dummy@gmail.com" && \
-  sudo git config --global color.ui false && \
+RUN git config --global user.name "dummy" && \
+  git config --global user.email "dummy@gmail.com" && \
+  git config --global color.ui false && \
   mkdir ${USER_DIR}/bin && \
   curl https://storage.googleapis.com/git-repo-downloads/repo > ${USER_DIR}/bin/repo && \
   chmod a+x ${USER_DIR}/bin/repo

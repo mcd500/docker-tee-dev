@@ -36,14 +36,14 @@ RUN cat ~/.git-credentials
 
 # Start optee 
 ENV OPTEE_DIR=${USER_DIR}/optee
-#RUN mkdir -p ${OPTEE_DIR}
+RUN mkdir -p ${OPTEE_DIR}
 WORKDIR ${OPTEE_DIR}
 
 # To get the build args version information
 ARG VERSION
 
 # Get the source code for optee
-RUN repo --trace init --depth=1 -u https://github.com/OP-TEE/manifest.git -m qemu_v8.xml -b ${VERSION}
+RUN repo init -u https://github.com/OP-TEE/manifest.git -m qemu_v8.xml -b ${VERSION}
 RUN repo sync -j4 --no-clone-bundle --no-tags 1> /dev/null
 
 # Customize optee, enable some crypto algorithms

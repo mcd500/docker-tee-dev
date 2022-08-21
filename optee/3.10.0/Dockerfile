@@ -20,7 +20,7 @@ RUN sudo git config --global user.name "dummy" && \
 ENV PATH=${USER_DIR}/bin:${PATH}
 
 RUN cat ~/.gitconfig
-RUN cat ~/.git-credentials
+#RUN cat ~/.git-credentials
 
 # Start optee
 ENV OPTEE_DIR=${USER_DIR}/optee

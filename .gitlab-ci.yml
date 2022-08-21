@@ -19,8 +19,8 @@ tee-dev-sgx_2.10:
         - docker push ${REPO}:sgx-2.10
 
 tee-dev-optee_3.9.0:
-    only:
-        - todo # skip this ci
+#    only:
+#        - todo # skip this ci
     tags:
         - fast-shells
     stage: docker

@@ -6,11 +6,9 @@ USER build-user
 
 # Set the required env variables
 ENV USER_DIR=/home/user
-ENV OPTEE_DIR=${USER_DIR}/optee
 #ENV FORCE_UNSAFE_CONFIGURE=1
 
-RUN mkdir -p ${OPTEE_DIR}
-WORKDIR ${OPTEE_DIR}
+WORKDIR ${USER_DIR}
 
 # Install Android repo
 RUN sudo git config --global user.name "dummy" && \
@@ -21,6 +19,14 @@ RUN sudo git config --global user.name "dummy" && \
   chmod a+x ${USER_DIR}/bin/repo
 ENV PATH=${USER_DIR}/bin:${PATH}
 
+RUN cat ~/.gitconfig
+RUN cat ~/.git-credentials
+
+# Start optee
+ENV OPTEE_DIR=${USER_DIR}/optee
+#RUN mkdir -p ${OPTEE_DIR}
+WORKDIR ${OPTEE_DIR}
+
 # To get the build args version information
 ARG VERSION=
 
@@ -28,6 +34,7 @@ ARG VERSION=
 RUN repo init -u https://github.com/OP-TEE/manifest.git -m qemu_v8.xml -b ${VERSION}
 RUN repo sync -j4 --no-clone-bundle
 
+# Customize optee, enable some crypto algorithms
 RUN sed -i '/MBEDTLS_ECDSA_C/a#define MBEDTLS_HMAC_DRBG_C' optee_os/lib/libmbedtls/include/mbedtls_config_uta.h
 RUN sed -i '/MBEDTLS_ECDSA_C/a#define MBEDTLS_ECDSA_DETERMINISTIC' optee_os/lib/libmbedtls/include/mbedtls_config_uta.h
 

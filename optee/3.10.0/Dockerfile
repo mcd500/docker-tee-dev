@@ -24,7 +24,7 @@ RUN cat ~/.gitconfig
 
 # Start optee
 ENV OPTEE_DIR=${USER_DIR}/optee
-#RUN mkdir -p ${OPTEE_DIR}
+RUN mkdir -p ${OPTEE_DIR}
 WORKDIR ${OPTEE_DIR}
 
 # To get the build args version information

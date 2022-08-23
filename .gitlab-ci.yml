@@ -68,12 +68,12 @@ tee-dev-optee-3.10.0_rpi3_netboot_nfs:
         - docker pull aistcpsec/tee-dev:optee-3.10.0_rpi3
         - docker build --rm -t ${REPO}:optee-3.10.0_rpi3_netboot_nfs ./optee/3.10.0_rpi3_netboot_nfs
         - docker push ${REPO}:optee-3.10.0_rpi3_netboot_nfs
-        - for i in {1..5}; do docker stop $ROOTFS_CONT_NME || true; done 
+        - for i in {1..5}; do docker stop $NETBOOT_CONT_NME || true; done 
         - docker rm $NETBOOT_CONT_NME || true
         - docker run --name $NETBOOT_CONT_NME -itd ${REPO}:optee-3.10.0_rpi3_netboot_nfs
 #        - docker wait $NETBOOT_CONT_NME
         - docker cp $NETBOOT_CONT_NME:/${ROOTFS_FILE} $CI_PROJECT_DIR/${ROOTFS_FILE}
-        - for i in {1..5}; do docker stop $ROOTFS_CONT_NME || true; done
+        - for i in {1..5}; do docker stop $NETBOOT_CONT_NME || true; done
         - docker rm $NETBOOT_CONT_NME || true
      artifacts:
             paths:

@@ -1,5 +1,7 @@
 variables:
     REPO: aistcpsec/tee-dev
+    NETBOOT_CONT_NME: rootfs-tar-container
+    ROOTFS_FILE: arm64-20.04-rootfs.tar.xz
 
 stages:
     - docker
@@ -65,7 +67,19 @@ tee-dev-optee-3.10.0_rpi3_netboot_nfs:
         - docker pull aistcpsec/tee-distro-dev:rootfs-arm64-ubuntu-20.04-tar
         - docker pull aistcpsec/tee-dev:optee-3.10.0_rpi3
         - docker build --rm -t ${REPO}:optee-3.10.0_rpi3_netboot_nfs ./optee/3.10.0_rpi3_netboot_nfs
-        # - docker push ${REPO}:optee-3.10.0_rpi3_netboot_nfs
+        - docker push ${REPO}:optee-3.10.0_rpi3_netboot_nfs
+        - for i in {1..5}; do docker stop $ROOTFS_CONT_NME || true; done 
+        - docker rm $NETBOOT_CONT_NME || true
+        - docker run --name $NETBOOT_CONT_NME -itd ${REPO}:optee-3.10.0_rpi3_netboot_nfs
+#        - docker wait $NETBOOT_CONT_NME
+        - docker cp $NETBOOT_CONT_NME:/${ROOTFS_FILE} $CI_PROJECT_DIR/${ROOTFS_FILE}
+        - for i in {1..5}; do docker stop $ROOTFS_CONT_NME || true; done
+        - docker rm $NETBOOT_CONT_NME || true
+     artifacts:
+            paths:
+                - $CI_PROJECT_DIR/${ROOTFS_FILE}
+            expire_in: 1 week
+
 
 tee-dev-keystone_1.0.0:
     tags:

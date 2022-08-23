@@ -24,17 +24,20 @@ RUN gunzip -cd ${OPTEE_DIR}/out-br/images/rootfs.cpio.gz | cpio -D ${TARGET_DIR}
 
 WORKDIR ${TARGET_DIR}
 
-#RUN tar -xvf arm64-20.04-rootfs.tar.xz -C ${ROOTFS_EXT_DIR}
+# Unzip the tar file to the rootfs extension directory
+RUN sudo tar -xvf arm64-20.04-rootfs.tar.xz -C ${ROOTFS_EXT_DIR}
 
-# Make directories for rootfs cpio files to be copied to.
-RUN mkdir -p ${ROOTFS_EXT_DIR}/etc/init.d/  ${ROOTFS_EXT_DIR}/lib/ ${ROOTFS_EXT_DIR}/usr/lib/ ${ROOTFS_EXT_DIR}/usr/sbin/
+# Copy the required binaries into the unzipped folder
+RUN sudo cp etc/init.d/S30optee ${ROOTFS_EXT_DIR}/etc/init.d/ && \
+    sudo cp -r lib/optee_armtz/ ${ROOTFS_EXT_DIR}/lib/ && \
+    sudo cp usr/lib/libteec.so.1.0.0 ${ROOTFS_EXT_DIR}/usr/lib/ && \
+    sudo cp usr/sbin/tee-supplicant ${ROOTFS_EXT_DIR}/usr/sbin/
 
-RUN cp etc/init.d/S30optee ${ROOTFS_EXT_DIR}/etc/init.d/ && \
-    cp -r lib/optee_armtz/ ${ROOTFS_EXT_DIR}/lib/ && \
-    cp usr/lib/libteec.so.1.0.0 ${ROOTFS_EXT_DIR}/usr/lib/ && \
-    cp usr/sbin/tee-supplicant ${ROOTFS_EXT_DIR}/usr/sbin/
+# Removed the existing tar file
+RUN sudo rm -rf arm64-20.04-rootfs.tar.xz
 
-RUN sudo tar -cvf ${USER_DIR}/arm64-20.04-rootfs.tar.xz ${ROOTFS_EXT_DIR}
+# Create a new tar file and move to root directory
+RUN sudo tar -cvf arm64-20.04-rootfs.tar.xz arm64-20.04-rootfs && sudo mv arm64-20.04-rootfs.tar.xz /
 
 
 

@@ -1,7 +1,7 @@
 variables:
     REPO: aistcpsec/tee-dev
     NETBOOT_CONT_NME: rootfs-tar-container
-    ROOTFS_FILE: arm64-20.04-rootfs.tar.xz
+    ROOTFS_FILE: arm64-20.04-rootfs-optee.tar.xz
 
 stages:
     - docker

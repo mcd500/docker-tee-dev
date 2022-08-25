@@ -37,7 +37,7 @@ RUN sudo cp etc/init.d/S30optee ${ROOTFS_EXT_DIR}/etc/init.d/ && \
 RUN sudo rm -rf arm64-20.04-rootfs.tar.xz
 
 # Create a new tar file and move to root directory
-RUN sudo tar -cvf arm64-20.04-rootfs.tar.xz arm64-20.04-rootfs && sudo mv arm64-20.04-rootfs.tar.xz /
+RUN sudo tar -cvf arm64-20.04-rootfs-optee.tar.xz arm64-20.04-rootfs && sudo mv arm64-20.04-rootfs-optee.tar.xz /
 
 
 

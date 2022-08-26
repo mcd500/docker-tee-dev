@@ -35,7 +35,7 @@ RUN sudo cp etc/init.d/S30optee ${ROOTFS_EXT_DIR}/etc/init.d/ && \
 
 # Copy the tee-supplicant service
 COPY /tmp/tee-supplicant.service /tmp/
-RUN cp /tmp/tee-supplicant.service ${ROOTFS_EXT_DIR}/etc/systemd/system/
+RUN sudo cp /tmp/tee-supplicant.service ${ROOTFS_EXT_DIR}/etc/systemd/system/
 
 # Removed the existing tar file
 RUN sudo rm -rf arm64-20.04-rootfs.tar.xz

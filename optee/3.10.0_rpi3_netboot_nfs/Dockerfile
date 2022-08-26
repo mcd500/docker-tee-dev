@@ -34,7 +34,7 @@ RUN sudo cp etc/init.d/S30optee ${ROOTFS_EXT_DIR}/etc/init.d/ && \
     sudo cp usr/sbin/tee-supplicant ${ROOTFS_EXT_DIR}/usr/sbin/
 
 # Register library of optee which just copied to rootfs
-RUN sudo chroot /tmp/arm64-rootfs /bin/bash -c 'ldconfig /usr/lib'
+# RUN sudo chroot /tmp/arm64-rootfs /bin/bash -c 'ldconfig /usr/lib'
 
 # Removed the existing tar file
 RUN sudo rm -rf arm64-20.04-rootfs.tar.xz

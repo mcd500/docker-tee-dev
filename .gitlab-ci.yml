@@ -70,8 +70,8 @@ tee-dev-optee-3.10.0_rpi3_netboot_nfs:
         - docker push ${REPO}:optee-3.10.0_rpi3_netboot_nfs
         - for i in {1..5}; do docker stop $NETBOOT_CONT_NME || true; done 
         - docker rm $NETBOOT_CONT_NME || true
-        - docker run --name $NETBOOT_CONT_NME -itd ${REPO}:optee-3.10.0_rpi3_netboot_nfs
-        - docker exec --privileged --cap-add=SYS_CHROOT $NETBOOT_CONT_NME /bin/bash -c "ldconfig /usr/lib"
+        - docker run --cap-add=SYS_CHROOT --name $NETBOOT_CONT_NME -itd ${REPO}:optee-3.10.0_rpi3_netboot_nfs
+        - docker exec --privileged $NETBOOT_CONT_NME /bin/bash -c "ldconfig /usr/lib"
 #        - docker wait $NETBOOT_CONT_NME
         - docker cp $NETBOOT_CONT_NME:/${ROOTFS_FILE} $CI_PROJECT_DIR/${ROOTFS_FILE}
         - for i in {1..5}; do docker stop $NETBOOT_CONT_NME || true; done

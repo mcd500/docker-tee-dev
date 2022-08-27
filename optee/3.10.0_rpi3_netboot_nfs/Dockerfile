@@ -1,8 +1,10 @@
-FROM aistcpsec/tee-distro-dev:rootfs-arm64-ubuntu-20.04-tar as builder
+FROM aistcpsec/tee-distro-dev:rootfs-arm64-ubuntu-20.04-tar as ubuntu-mini
 
 ############################################################################
 # Second build to copy the rootfs tar file
-FROM aistcpsec/tee-dev:optee-3.10.0_rpi3 as slim
+FROM aistcpsec/tee-dev:optee-3.10.0_rpi3 as optee
+
+USER root
 
 # Create a target directory to perform the operations
 ENV TARGET_DIR=${USER_DIR}/target
@@ -13,7 +15,7 @@ ENV ROOTFS_EXT_DIR=${TARGET_DIR}/arm64-20.04-rootfs
 RUN mkdir -p ${ROOTFS_EXT_DIR}
 
 # Copy the Rootfs tar file from the builder
-COPY --from=builder /arm64-20.04-rootfs.tar.xz ${TARGET_DIR}/
+COPY --from=ubuntu-mini /arm64-20.04-rootfs.tar.xz ${TARGET_DIR}/
 
 # Copy the contents from the optee rootfs cpio file and copy to target directory
 RUN gunzip -cd ${OPTEE_DIR}/out-br/images/rootfs.cpio.gz | cpio -D ${TARGET_DIR} -idmv \
@@ -25,7 +27,7 @@ RUN gunzip -cd ${OPTEE_DIR}/out-br/images/rootfs.cpio.gz | cpio -D ${TARGET_DIR}
 WORKDIR ${TARGET_DIR}
 
 # Unzip the tar file to the rootfs extension directory
-RUN sudo tar -xf arm64-20.04-rootfs.tar.xz -C ${ROOTFS_EXT_DIR}
+RUN tar -xf arm64-20.04-rootfs.tar.xz -C ${ROOTFS_EXT_DIR}
 
 # Copy the required binaries into the unzipped folder
 RUN sudo cp etc/init.d/S30optee ${ROOTFS_EXT_DIR}/etc/init.d/ && \

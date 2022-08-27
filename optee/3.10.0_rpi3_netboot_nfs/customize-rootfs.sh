@@ -4,7 +4,7 @@ TARGET_DIR=/root/target
 ROOTFS_EXT_DIR=${TARGET_DIR}/arm64-20.04-rootfs
 
 # Copying files from host directory inside rootfs
-cp /mnt/tee-supplicant.service /etc/systemd/system/
+cp /mnt/tee-supplicant.service ${ROOTFS_EXT_DIR}/etc/systemd/system/
 chmod 644 ${ROOTFS_EXT_DIR}/etc/systemd/system/tee-supplicant.service
 
 # Update lib cache for installed optee library

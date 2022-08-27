@@ -25,7 +25,7 @@ RUN gunzip -cd ${OPTEE_DIR}/out-br/images/rootfs.cpio.gz | cpio -D ${TARGET_DIR}
 WORKDIR ${TARGET_DIR}
 
 # Unzip the tar file to the rootfs extension directory
-RUN sudo tar -xvf arm64-20.04-rootfs.tar.xz -C ${ROOTFS_EXT_DIR}
+RUN sudo tar -xf arm64-20.04-rootfs.tar.xz -C ${ROOTFS_EXT_DIR}
 
 # Copy the required binaries into the unzipped folder
 RUN sudo cp etc/init.d/S30optee ${ROOTFS_EXT_DIR}/etc/init.d/ && \

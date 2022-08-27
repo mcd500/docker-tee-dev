@@ -61,7 +61,7 @@ tee-dev-optee-3.10.0_rpi3_netboot_bootloader:
 tee-dev-optee-3.10.0_rpi3_netboot_nfs:
     tags:
         - shell117
-    stage: rootfs
+    stage: build
     variables:
         NETBOOT_CONT_NME: rootfs-tar-container
     script:

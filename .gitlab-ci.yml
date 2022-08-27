@@ -66,11 +66,11 @@ tee-dev-optee-3.10.0_rpi3_netboot_nfs:
     script:
         - docker pull aistcpsec/tee-distro-dev:rootfs-arm64-ubuntu-20.04-tar
         - docker pull aistcpsec/tee-dev:optee-3.10.0_rpi3
-        - docker build --rm -t ${REPO}:optee-3.10.0_rpi3_netboot_nfs -v $(pwd)/optee/3.10.0_rpi3_netboot_nfs:/mnt ./optee/3.10.0_rpi3_netboot_nfs
+        - docker build --rm -t ${REPO}:optee-3.10.0_rpi3_netboot_nfs ./optee/3.10.0_rpi3_netboot_nfs
         - docker push ${REPO}:optee-3.10.0_rpi3_netboot_nfs
         - for i in {1..5}; do docker stop $NETBOOT_CONT_NME || true; done 
         - docker rm $NETBOOT_CONT_NME || true
-        - docker run --cap-add=SYS_CHROOT --name $NETBOOT_CONT_NME -itd -v $(pwd)/optee/3.10.0_rpi3_netboot_nfs:/mnt ${REPO}:optee-3.10.0_rpi3_netboot_nfs /bin/bash -c "/mnt/customize-rootfs.sh"
+        - docker run --privileged --cap-add=SYS_CHROOT --name $NETBOOT_CONT_NME -itd -v $(pwd)/optee/3.10.0_rpi3_netboot_nfs:/mnt ${REPO}:optee-3.10.0_rpi3_netboot_nfs /bin/bash -c "/mnt/customize-rootfs.sh"
           #        - docker exec --privileged $NETBOOT_CONT_NME /bin/bash -c "sudo ldconfig /usr/lib"
           #        - docker exec --privileged $NETBOOT_CONT_NME /bin/bash -c "sudo systemctl enable tee-supplicant.service"
 #        - docker wait $NETBOOT_CONT_NME

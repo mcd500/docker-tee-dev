@@ -1,6 +1,5 @@
 variables:
     REPO: aistcpsec/tee-dev
-    ROOTFS_FILE: arm64-20.04-rootfs-optee.tar.xz
 
 stages:
     - build
@@ -61,19 +60,21 @@ tee-dev-optee-3.10.0_rpi3_netboot_bootloader:
 tee-dev-optee-3.10.0_rpi3_netboot_nfs:
     tags:
         - shell117
-    stage: build
+    stage: rootfs
     variables:
         NETBOOT_CONT_NME: rootfs-tar-container
+        ROOTFS_FILE: arm64-20.04-rootfs-optee.tar.xz
     script:
         - docker pull aistcpsec/tee-distro-dev:rootfs-arm64-ubuntu-20.04-tar
         - docker pull aistcpsec/tee-dev:optee-3.10.0_rpi3
         - docker build --rm -t ${REPO}:optee-3.10.0_rpi3_netboot_nfs ./optee/3.10.0_rpi3_netboot_nfs
-        - docker push ${REPO}:optee-3.10.0_rpi3_netboot_nfs
         - for i in {1..5}; do docker stop $NETBOOT_CONT_NME || true; done 
         - docker rm $NETBOOT_CONT_NME || true
-        - docker run --privileged --cap-add=SYS_CHROOT --name $NETBOOT_CONT_NME -v $(pwd)/optee/3.10.0_rpi3_netboot_nfs:/mnt ${REPO}:optee-3.10.0_rpi3_netboot_nfs /bin/bash -c "/mnt/customize-rootfs.sh > /mnt/net-nfs.log"
+        - docker run --privileged --cap-add=SYS_CHROOT --name $NETBOOT_CONT_NME -v $(pwd)/optee/3.10.0_rpi3_netboot_nfs:/mnt ${REPO}:optee-3.10.0_rpi3_netboot_nfs /bin/bash -c "/mnt/customize-rootfs.sh > /mnt/net-nfs.log && cp /arm64-20.04-rootfs-optee.tar.xz /mnt/"
         - cat $(pwd)/optee/3.10.0_rpi3_netboot_nfs/net-nfs.log
+        - docker push ${REPO}:optee-3.10.0_rpi3_netboot_nfs
         - docker cp $NETBOOT_CONT_NME:/${ROOTFS_FILE} $CI_PROJECT_DIR/${ROOTFS_FILE}
+        - cp $(pwd)/optee/3.10.0_rpi3_netboot_nfs:/mnt $CI_PROJECT_DIR/${ROOTFS_FILE}
         - for i in {1..5}; do docker stop $NETBOOT_CONT_NME || true; done
         - docker rm $NETBOOT_CONT_NME || true
     artifacts:

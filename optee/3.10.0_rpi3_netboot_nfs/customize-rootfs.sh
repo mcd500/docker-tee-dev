@@ -1,6 +1,6 @@
 #!/bin/bash -xue
 
-TARGET_DIR=/root/target
+TARGET_DIR=/home/user/target
 ROOTFS_EXT_DIR=${TARGET_DIR}/arm64-20.04-rootfs
 
 # Copying files from host directory inside rootfs

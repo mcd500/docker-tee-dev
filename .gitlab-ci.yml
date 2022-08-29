@@ -81,16 +81,16 @@ tee-dev-optee-3.10.0_rpi3_netboot_nfs:
                cp /arm64-20.04-rootfs-optee.tar.xz /mnt/"
         - cat $(pwd)/optee/3.10.0_rpi3_netboot_nfs/net-nfs.log
         - docker push ${REPO}:optee-3.10.0_rpi3_netboot_nfs
-        - docker cp $NETBOOT_CONT_NME:/${ROOTFS_FILE} $CI_PROJECT_DIR/${ROOTFS_FILE}
-        - echo $(pwd) && ls -l $(pwd)/optee/3.10.0_rpi3_netboot_nfs/
-        - echo $CI_PROJECT_DIR && ls -l $CI_PROJECT_DIR
-        - cp $(pwd)/optee/3.10.0_rpi3_netboot_nfs/${ROOTFS_FILE}
-           $CI_PROJECT_DIR/${ROOTFS_FILE}
+        # - docker cp $NETBOOT_CONT_NME:/${ROOTFS_FILE} $CI_PROJECT_DIR/${ROOTFS_FILE}
+        # - echo $(pwd) && ls -l $(pwd)/optee/3.10.0_rpi3_netboot_nfs/
+        # - echo $CI_PROJECT_DIR && ls -l $CI_PROJECT_DIR
+        # - cp $(pwd)/optee/3.10.0_rpi3_netboot_nfs/${ROOTFS_FILE}
+        #    $CI_PROJECT_DIR/${ROOTFS_FILE}
         - for i in {1..5}; do docker stop $NETBOOT_CONT_NME || true; done
         - docker rm $NETBOOT_CONT_NME || true
     artifacts:
             paths:
-                - $CI_PROJECT_DIR/${ROOTFS_FILE}
+                - $(pwd)/optee/3.10.0_rpi3_netboot_nfs/${ROOTFS_FILE}
             expire_in: 1 week
 
 

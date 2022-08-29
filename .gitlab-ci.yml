@@ -37,7 +37,8 @@ tee-dev-optee_3.10.0:
     stage: build
     script:
         - docker pull aistcpsec/tee-distro-dev:arm64-20.04
-        - docker build --build-arg VERSION=3.10.0 --build-arg DEBUG_DATE=$(date +%s) --rm -t ${REPO}:optee-3.10.0 ./optee/3.10.0
+        - docker build --build-arg VERSION=3.10.0 --build-arg DEBUG_DATE=$(date +%s) --rm -t
+          ${REPO}:optee-3.10.0 ./optee/3.10.0
         - docker push ${REPO}:optee-3.10.0
 
 
@@ -47,7 +48,8 @@ tee-dev-optee_3.10.0_rpi3:
     stage: build
     script:
         - docker pull aistcpsec/tee-distro-dev:arm64-20.04
-        - docker build --build-arg VERSION=3.10.0 --build-arg DEBUG_DATE=$(date +%s) --rm -t ${REPO}:optee-3.10.0_rpi3 ./optee/3.10.0_rpi3
+        - docker build --build-arg VERSION=3.10.0 --build-arg DEBUG_DATE=$(date +%s) --rm -t
+          ${REPO}:optee-3.10.0_rpi3 ./optee/3.10.0_rpi3
         - docker push ${REPO}:optee-3.10.0_rpi3
 
 tee-dev-optee-3.10.0_rpi3_netboot_bootloader:
@@ -100,7 +102,8 @@ tee-dev-keystone_1.0.0:
     stage: build
     script:
         - docker pull aistcpsec/tee-distro-dev:riscv-20.04
-        - docker build --build-arg VERSION=v1.0.0 --build-arg DEBUG_DATE=$(date +%s) --rm -t ${REPO}:keystone-1.0.0 ./keystone/1.0.0
+        - docker build --build-arg VERSION=v1.0.0 --build-arg DEBUG_DATE=$(date +%s) --rm -t
+          ${REPO}:keystone-1.0.0 ./keystone/1.0.0
         - docker push ${REPO}:keystone-1.0.0
 
 trigger_docker-taref-dev:
@@ -110,4 +113,5 @@ trigger_docker-taref-dev:
     tags:
         - shell117
     script:
-        - "curl -X POST --fail --retry 5 -F token=${TOKEN} -F ref=main -k https://192.168.100.100/api/v4/projects/132/trigger/pipeline"
+        - "curl -X POST --fail --retry 5 -F token=${TOKEN} -F ref=main -k
+          https://192.168.100.100/api/v4/projects/132/trigger/pipeline"

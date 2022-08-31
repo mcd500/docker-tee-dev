@@ -1,6 +1,8 @@
 # Contains stock minimam ubuntu rootfs in /arm64-20.04-rootfs.tar.xz
 FROM aistcpsec/tee-distro-dev:rootfs-arm64-ubuntu-20.04-tar as ubuntu-mini
 
+FROM aistcpsec/teep-dev:optee as taref-teep-dev-source
+
 ############################################################################
 # Contains optee binaries in ${OPTEE_DIR}
 FROM aistcpsec/tee-dev:optee-3.10.0_rpi3 as optee
@@ -42,6 +44,15 @@ RUN sudo chmod 644 ${ROOTFS_EXT_DIR}/etc/systemd/system/tee-supplicant.service
 
 # Removed the existing tar file
 RUN rm -rf arm64-20.04-rootfs.tar.xz
+
+# Copy ta-ref, teep-device and tamproto into root directory
+RUN mkdir -p ${ROOTFS_EXT_DIR}/root/teep-device && \
+	mkdir -p ${ROOTFS_EXT_DIR}/root/ta-ref && \
+	mkdir -p ${ROOTFS_EXT_DIR}/root/tamproto
+COPY --from=taref-teep-dev-source /home/user/teep-device ${ROOTFS_EXT_DIR}/root/teep-device
+COPY --from=taref-teep-dev-source /home/user/ta-ref ${ROOTFS_EXT_DIR}/root/ta-ref
+RUN git clone https://192.168.100.100/rinkai/tamproto.git  && \
+	mv tamproto ${ROOTFS_EXT_DIR}/root/tamproto
 
 # Create a new tar file and move to root directory
 RUN tar -cJf arm64-20.04-rootfs-optee.tar.xz --exclude="dev,proc,sys" arm64-20.04-rootfs && sudo mv arm64-20.04-rootfs-optee.tar.xz /

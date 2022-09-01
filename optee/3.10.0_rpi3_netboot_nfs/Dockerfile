@@ -9,6 +9,14 @@ FROM aistcpsec/tee-dev:optee-3.10.0_rpi3 as optee
 
 USER root
 
+# Credential for git clone from 192.168.100.100
+ARG CI_JOB_TOKEN=
+RUN git config --global user.name gitlab-ci-token
+RUN git config --global http.sslVerify false
+RUN git config --global credential.helper 'store --file ~/.git-credentials'
+RUN echo https://gitlab-ci-token:${CI_JOB_TOKEN}@192.168.100.100:443 >> ~/.git-credentials
+RUN echo https://gitlab-ci-token:${CI_JOB_TOKEN}@192.168.100.100 >> ~/.git-credentials
+
 # Create a target directory to perform the operations
 ENV TARGET_DIR=${USER_DIR}/target
 RUN mkdir -p ${TARGET_DIR}

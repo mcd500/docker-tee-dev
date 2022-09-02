@@ -1,12 +1,13 @@
 # Contains stock minimam ubuntu rootfs in /arm64-20.04-rootfs.tar.xz
 FROM aistcpsec/tee-distro-dev:rootfs-arm64-ubuntu-20.04-tar as ubuntu-mini
 
+# Contains the source of ta-ref and teep-dev
+FROM aistcpsec/teep-dev:optee as taref-teep-dev-source
+
 ############################################################################
 # Contains optee binaries in ${OPTEE_DIR}
 FROM aistcpsec/tee-dev:optee-3.10.0_rpi3 as optee
 
-# Contains the source of ta-ref and teep-dev
-FROM aistcpsec/teep-dev:optee as taref-teep-dev-source
 
 USER root
 

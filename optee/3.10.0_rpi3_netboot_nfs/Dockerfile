@@ -79,7 +79,3 @@ RUN cp -r ${TARGET_DIR}/tamproto ${ROOTFS_EXT_DIR}/root/tamproto
 # Create a new tar file and move to root directory
 RUN tar -cJf arm64-20.04-rootfs-optee.tar.xz --exclude="dev,proc,sys" \
 	arm64-20.04-rootfs && sudo mv arm64-20.04-rootfs-optee.tar.xz /
-
-# Reducing the image size
-RUN cd && rm -fr ${TARGET_DIR}
-

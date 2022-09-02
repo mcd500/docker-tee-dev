@@ -1,21 +1,22 @@
 # Contains stock minimam ubuntu rootfs in /arm64-20.04-rootfs.tar.xz
 FROM aistcpsec/tee-distro-dev:rootfs-arm64-ubuntu-20.04-tar as ubuntu-mini
 
-FROM aistcpsec/teep-dev:optee as taref-teep-dev-source
-
 ############################################################################
 # Contains optee binaries in ${OPTEE_DIR}
 FROM aistcpsec/tee-dev:optee-3.10.0_rpi3 as optee
 
+# Contains the source of ta-ref and teep-dev
+FROM aistcpsec/teep-dev:optee as taref-teep-dev-source
+
 USER root
 
-# Credential for git clone from 192.168.100.100
-ARG CI_JOB_TOKEN=
-RUN git config --global user.name gitlab-ci-token
-RUN git config --global http.sslVerify false
-RUN git config --global credential.helper 'store --file ~/.git-credentials'
-RUN echo https://gitlab-ci-token:${CI_JOB_TOKEN}@192.168.100.100:443 >> ~/.git-credentials
-RUN echo https://gitlab-ci-token:${CI_JOB_TOKEN}@192.168.100.100 >> ~/.git-credentials
+# # Credential for git clone from 192.168.100.100
+# ARG CI_JOB_TOKEN=
+# RUN git config --global user.name gitlab-ci-token
+# RUN git config --global http.sslVerify false
+# RUN git config --global credential.helper 'store --file ~/.git-credentials'
+# RUN echo https://gitlab-ci-token:${CI_JOB_TOKEN}@19U2.168.100.100:443 >> ~/.git-credentials
+# RUN echo https://gitlab-ci-token:${CI_JOB_TOKEN}@192.168.100.100 >> ~/.git-credentials
 
 # Create a target directory to perform the operations
 ENV TARGET_DIR=${USER_DIR}/target
@@ -59,8 +60,15 @@ RUN mkdir -p ${ROOTFS_EXT_DIR}/root/teep-device && \
 	mkdir -p ${ROOTFS_EXT_DIR}/root/tamproto
 COPY --from=taref-teep-dev-source /home/user/teep-device ${ROOTFS_EXT_DIR}/root/teep-device
 COPY --from=taref-teep-dev-source /home/user/ta-ref ${ROOTFS_EXT_DIR}/root/ta-ref
-RUN git clone https://192.168.100.100/rinkai/tamproto.git  && \
-	mv tamproto ${ROOTFS_EXT_DIR}/root/tamproto
+
+# Change to build-user to clone the tamproto repo
+USER build-user
+
+RUN git clone https://192.168.100.100/rinkai/tamproto.git
+
+USER root
+
+RUN mv /home/user/tamproto ${ROOTFS_EXT_DIR}/root/tamproto
 
 # Create a new tar file and move to root directory
 RUN tar -cJf arm64-20.04-rootfs-optee.tar.xz --exclude="dev,proc,sys" arm64-20.04-rootfs && sudo mv arm64-20.04-rootfs-optee.tar.xz /

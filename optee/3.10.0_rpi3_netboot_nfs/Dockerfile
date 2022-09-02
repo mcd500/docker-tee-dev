@@ -60,7 +60,7 @@ RUN mkdir -p ${ROOTFS_EXT_DIR}/root/teep-device && \
 COPY --from=taref-teep-dev-source /home/user/teep-device ${ROOTFS_EXT_DIR}/root/teep-device
 COPY --from=taref-teep-dev-source /home/user/ta-ref ${ROOTFS_EXT_DIR}/root/ta-ref
 RUN git clone https://192.168.100.100/rinkai/tamproto.git  && \
-	mv tamproto/tamproto ${ROOTFS_EXT_DIR}/root/tamproto
+	mv tamproto ${ROOTFS_EXT_DIR}/root/tamproto
 
 # Create a new tar file and move to root directory
 RUN tar -cJf arm64-20.04-rootfs-optee.tar.xz --exclude="dev,proc,sys" arm64-20.04-rootfs && sudo mv arm64-20.04-rootfs-optee.tar.xz /

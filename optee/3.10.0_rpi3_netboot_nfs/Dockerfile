@@ -26,7 +26,11 @@ RUN mkdir -p ${TARGET_DIR}
 WORKDIR ${TARGET_DIR}
 
 # Cloning while TARGET_DIR is writeable by build-user
-RUN git clone https://192.168.100.100/rinkai/tamproto.git
+RUN git clone https://192.168.100.100/rinkai/tamproto.git && \
+    cd tamproto && \
+    git checkout fb1961bc964857384c9ed8696c0d5fc0a76a319d
+
+WORKDIR ${TARGET_DIR}
 
 # Create a rootfs extraction directory to extract and zip it again
 ENV ROOTFS_EXT_DIR=${TARGET_DIR}/arm64-20.04-rootfs

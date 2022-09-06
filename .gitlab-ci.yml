@@ -74,7 +74,6 @@ tee-dev-optee-3.10.0_rpi3_netboot_nfs:
         ROOTFS_FILE: arm64-20.04-rootfs-optee.tar.xz
     script:
         - docker pull aistcpsec/tee-distro-dev:rootfs-arm64-ubuntu-20.04-tar
-        - docker pull aistcpsec/tee-dev:optee-3.10.0_rpi3
         - docker build --rm -t ${REPO}:optee-3.10.0_rpi3_netboot_nfs
            --build-arg CI_JOB_TOKEN=${CI_JOB_TOKEN}
            ./optee/3.10.0_rpi3_netboot_nfs
@@ -88,10 +87,6 @@ tee-dev-optee-3.10.0_rpi3_netboot_nfs:
         - docker push ${REPO}:optee-3.10.0_rpi3_netboot_nfs
         - for i in {1..5}; do docker stop $NETBOOT_CONT_NME || true; done
         - docker rm $NETBOOT_CONT_NME || true
-    artifacts:
-            paths:
-                - $(pwd)/optee/3.10.0_rpi3_netboot_nfs/${ROOTFS_FILE}
-            expire_in: 1 week
 
 
 tee-dev-keystone_1.0.0:

@@ -65,6 +65,7 @@ tee-dev-optee-3.10.0_rpi3_netboot_bootloader:
            ./optee/3.10.0_rpi3_netboot_bootloader
         - docker push ${REPO}:optee-3.10.0_rpi3_netboot_bootloader
 
+# Job to create the rootfs tar file and push it into docker
 tee-dev-optee-3.10.0_rpi3_netboot_nfs:
     tags:
         - shell117

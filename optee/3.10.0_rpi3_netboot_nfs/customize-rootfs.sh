@@ -11,6 +11,9 @@ chmod 644 ${ROOTFS_EXT_DIR}/etc/systemd/system/tee-supplicant.service
 chroot ${ROOTFS_EXT_DIR} /bin/bash -c '
 ldconfig /usr/lib
 '
+chroot ${ROOTFS_EXT_DIR} /bin/bash -c 'apt-get update && apt-get install -y npm'
+chroot ${ROOTFS_EXT_DIR} /bin/bash -c 'curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash'
+chroot ${ROOTFS_EXT_DIR} /bin/bash -c 'source $HOME/.nvm/nvm.sh && nvm install --lts && nvm use --lts'
 
 # Booting tee-supplicant on power
 chroot ${ROOTFS_EXT_DIR} /bin/bash -c '

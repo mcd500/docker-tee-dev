@@ -102,7 +102,7 @@ tee-dev-keystone_1.0.0:
 
 trigger_docker-taref-dev:
     variables:
-        TOKEN: 29d9f4acb972460d03f8bd22e76880
+        TOKEN: a53b1d7a89b225601a16d6522f402b
     stage: trigger
     tags:
         - shell117

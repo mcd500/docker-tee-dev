@@ -15,12 +15,15 @@ ENV BOOT_IMG_PATH=${MAIN_DIR}/boot.img
 # Update the uboot.env configuration to use NFS boot
 ENV UBOOT_ENV_FILE=${OPTEE_DIR}/build/rpi3/firmware/uboot.env.txt
 
-# Update the uboot.env.txt file with the actual values
-RUN sed -i 's/gatewayip=192.168.1.1/gatewayip=192.168.100.1/g' ${UBOOT_ENV_FILE} && \
-    sed -i 's/nfsserverip=192.168.1.100/nfsserverip=192.168.100.117/g' ${UBOOT_ENV_FILE} && \
-    sed -i 's#nfspath=/srv/nfs/rpi#nfspath=/home/aist/nfs#g' ${UBOOT_ENV_FILE} && \
-    sed -i 's/bootcmd=run mmcboot/bootcmd=run nfsboot/g' ${UBOOT_ENV_FILE} && \
-    sed -i 's%set_bootargs_nfs=.*%set_bootargs_nfs=setenv bootargs \$\{bootargs\} root=/dev/nfs rw noinitrd rootfstype=nfs nfsroot=${nfsserverip}:${nfspath},udp,vers=3 ip=dhcp nfsrootdebug%g' ${UBOOT_ENV_FILE}
+# # Update the uboot.env.txt file with the actual values
+# RUN sed -i 's/gatewayip=192.168.1.1/gatewayip=192.168.100.1/g' ${UBOOT_ENV_FILE} && \
+#     sed -i 's/nfsserverip=192.168.1.100/nfsserverip=192.168.100.117/g' ${UBOOT_ENV_FILE} && \
+#     sed -i 's#nfspath=/srv/nfs/rpi#nfspath=/home/aist/nfs#g' ${UBOOT_ENV_FILE} && \
+#     sed -i 's/bootcmd=run mmcboot/bootcmd=run nfsboot/g' ${UBOOT_ENV_FILE} && \
+#     sed -i 's%set_bootargs_nfs=.*%set_bootargs_nfs=setenv bootargs \$\{bootargs\} root=/dev/nfs rw noinitrd rootfstype=nfs nfsroot=${nfsserverip}:${nfspath},udp,vers=3 ip=dhcp nfsrootdebug%g' ${UBOOT_ENV_FILE}
+
+# Copying the updated uboot.ev.txt file with NFS boot configurations
+COPY uboot.env.txt ${UBOOT_ENV_FILE}
 
 # Regenerate the uboot.env
 RUN cd $OPTEE_DIR/build && \

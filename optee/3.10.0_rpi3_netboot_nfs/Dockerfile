@@ -28,11 +28,13 @@ RUN gunzip -cd ${OPTEE_DIR}/out-br/images/rootfs.cpio.gz | cpio -D ${TARGET_DIR}
   "usr/sbin/tee-supplicant" \
   "usr/lib/libteec.so.1.0.0" \
   "etc/init.d/S30optee" \
-  "lib/optee_armtz/*"
+  "lib/optee_armtz/*" \
+  "lib/modules/*"
 
 # Copy the required binaries into the unzipped folder
 RUN cp etc/init.d/S30optee ${ROOTFS_EXT_DIR}/etc/init.d/ && \
     cp -r lib/optee_armtz/ ${ROOTFS_EXT_DIR}/lib/ && \
+    cp -r lib/modules/ ${ROOTFS_EXT_DIR}/lib/ && \
     cp usr/lib/libteec.so.1.0.0 ${ROOTFS_EXT_DIR}/usr/lib/ && \
     cp usr/sbin/tee-supplicant ${ROOTFS_EXT_DIR}/usr/sbin/
 

@@ -85,10 +85,10 @@ tee-dev-optee-3.10.0_rpi3_netboot_nfs:
            ${REPO}:optee-3.10.0_rpi3_netboot_nfs /bin/bash
            -c "/mnt/customize-rootfs.sh > /mnt/net-nfs.log &&
                cp /arm64-20.04-rootfs-optee.tar.xz /mnt/"
+        - docker commit $NETBOOT_CONT_NME ${REPO}:optee-3.10.0_rpi3_netboot_nfs
         - docker push ${REPO}:optee-3.10.0_rpi3_netboot_nfs
         - for i in {1..5}; do docker stop $NETBOOT_CONT_NME || true; done
         - docker rm $NETBOOT_CONT_NME || true
-
 
 tee-dev-keystone_1.0.0:
     tags:

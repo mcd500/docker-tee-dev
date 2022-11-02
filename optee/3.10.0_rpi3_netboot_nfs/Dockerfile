@@ -46,5 +46,5 @@ RUN sudo chmod 644 ${ROOTFS_EXT_DIR}/etc/systemd/system/tee-supplicant.service
 RUN rm -rf arm64-20.04-rootfs.tar.xz
 
 # Create a new tar file and move to root directory
-RUN tar -cJf arm64-20.04-rootfs-optee.tar.xz --exclude="dev,proc,sys" arm64-20.04-rootfs && sudo mv arm64-20.04-rootfs-optee.tar.xz /
+# RUN tar -cJf arm64-20.04-rootfs-optee.tar.xz --exclude="dev,proc,sys" arm64-20.04-rootfs && sudo mv arm64-20.04-rootfs-optee.tar.xz /
 

@@ -86,7 +86,7 @@ tee-dev-optee-3.10.0_rpi3_netboot_nfs:
            -v $(pwd)/optee/3.10.0_rpi3_netboot_nfs:/mnt
            ${REPO}:${OPTEE_NFS_REPO}
         # Execute the rootfs customized script into the new container
-        - docker exec $NETBOOT_CONT_NME /mnt/customize-rootfs.sh > /mnt/net-nfs.log
+        - docker exec $NETBOOT_CONT_NME /mnt/customize-rootfs.sh
         # copy the rootfs tar file inside the new container
         - docker exec $NETBOOT_CONT_NME cp /mnt/${ROOTFS_FILE} /
         # Commit the container into new image and push it

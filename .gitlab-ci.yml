@@ -82,7 +82,7 @@ tee-dev-optee-3.10.0_rpi3_netboot_nfs:
            ./optee/3.10.0_rpi3_netboot_nfs
         - for i in {1..5}; do docker stop $NETBOOT_CONT_NME || true; done 
         - docker rm $NETBOOT_CONT_NME || true
-        - docker run --privileged --cap-add=SYS_CHROOT --name $NETBOOT_CONT_NME
+        - docker run --privileged --cap-add=SYS_CHROOT --name $NETBOOT_CONT_NME  -itd
            -v $(pwd)/optee/3.10.0_rpi3_netboot_nfs:/mnt
            ${REPO}:${OPTEE_NFS_REPO}
         # Execute the rootfs customized script into the new container

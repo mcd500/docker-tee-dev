@@ -88,7 +88,7 @@ tee-dev-optee-3.10.0_rpi3_netboot_nfs:
         # Execute the rootfs customized script into the new container
         - docker exec $NETBOOT_CONT_NME /mnt/customize-rootfs.sh
         # Commit the container into new image and push it
-        - docker commit $NETBOOT_CONT_NME ${REPO}:${ROOTFS_TAR_REPO}
+        - docker commit $NETBOOT_CONT_NME ${REPO}:${OPTEE_NFS_REPO}
         - docker push ${REPO}:${OPTEE_NFS_REPO}
         - for i in {1..5}; do docker stop $NETBOOT_CONT_NME || true; done
         - docker rm $NETBOOT_CONT_NME || true

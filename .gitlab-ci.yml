@@ -9,61 +9,61 @@ stages:
 before_script:
     - docker login -u ${DOCKERHUB_USER} -p ${DOCKERHUB_PASSWD}
 
-# tee-dev-sgx_2.10:
-#     tags:
-#         - fast-shells
-#     stage: build
-#     script:
-#         - docker pull aistcpsec/tee-distro-dev:x64-20.04
-#         - docker build --build-arg VERSION=2.10 --build-arg DEBUG_DATE=$(date +%s)
-#            --build-arg CI_JOB_TOKEN=${CI_JOB_TOKEN} --rm -t ${REPO}:sgx-2.10
-#            ./sgx/2.10
-#         - docker push ${REPO}:sgx-2.10
+tee-dev-sgx_2.10:
+    tags:
+        - fast-shells
+    stage: build
+    script:
+        - docker pull aistcpsec/tee-distro-dev:x64-20.04
+        - docker build --build-arg VERSION=2.10 --build-arg DEBUG_DATE=$(date +%s)
+           --build-arg CI_JOB_TOKEN=${CI_JOB_TOKEN} --rm -t ${REPO}:sgx-2.10
+           ./sgx/2.10
+        - docker push ${REPO}:sgx-2.10
 
-# tee-dev-optee_3.9.0:
-# #    only:
-# #        - todo # skip this ci
-#     tags:
-#         - fast-shells
-#     stage: build
-#     script:
-#         - docker pull aistcpsec/tee-distro-dev:arm64-20.04
-#         - docker build --build-arg VERSION=3.9.0 --build-arg DEBUG_DATE=$(date +%s)
-#            --build-arg CI_JOB_TOKEN=${CI_JOB_TOKEN} --rm -t ${REPO}:optee-3.9.0
-#            ./optee/3.9.0
-#         - docker push ${REPO}:optee-3.9.0
+tee-dev-optee_3.9.0:
+#    only:
+#        - todo # skip this ci
+    tags:
+        - fast-shells
+    stage: build
+    script:
+        - docker pull aistcpsec/tee-distro-dev:arm64-20.04
+        - docker build --build-arg VERSION=3.9.0 --build-arg DEBUG_DATE=$(date +%s)
+           --build-arg CI_JOB_TOKEN=${CI_JOB_TOKEN} --rm -t ${REPO}:optee-3.9.0
+           ./optee/3.9.0
+        - docker push ${REPO}:optee-3.9.0
 
-# tee-dev-optee_3.10.0:
-#     tags:
-#         - fast-shells
-#     stage: build
-#     script:
-#         - docker pull aistcpsec/tee-distro-dev:arm64-20.04
-#         - docker build --build-arg VERSION=3.10.0 --build-arg DEBUG_DATE=$(date +%s)
-#            --rm -t ${REPO}:optee-3.10.0 ./optee/3.10.0
-#         - docker push ${REPO}:optee-3.10.0
+tee-dev-optee_3.10.0:
+    tags:
+        - fast-shells
+    stage: build
+    script:
+        - docker pull aistcpsec/tee-distro-dev:arm64-20.04
+        - docker build --build-arg VERSION=3.10.0 --build-arg DEBUG_DATE=$(date +%s)
+           --rm -t ${REPO}:optee-3.10.0 ./optee/3.10.0
+        - docker push ${REPO}:optee-3.10.0
 
 
-# tee-dev-optee_3.10.0_rpi3:
-#     tags:
-#         - fast-shells
-#     stage: build
-#     script:
-#         - docker pull aistcpsec/tee-distro-dev:arm64-20.04
-#         - docker build --build-arg VERSION=3.10.0 --build-arg DEBUG_DATE=$(date +%s)
-#            --rm -t ${REPO}:optee-3.10.0_rpi3 ./optee/3.10.0_rpi3
-#         - docker push ${REPO}:optee-3.10.0_rpi3
+tee-dev-optee_3.10.0_rpi3:
+    tags:
+        - fast-shells
+    stage: build
+    script:
+        - docker pull aistcpsec/tee-distro-dev:arm64-20.04
+        - docker build --build-arg VERSION=3.10.0 --build-arg DEBUG_DATE=$(date +%s)
+           --rm -t ${REPO}:optee-3.10.0_rpi3 ./optee/3.10.0_rpi3
+        - docker push ${REPO}:optee-3.10.0_rpi3
 
-# tee-dev-optee-3.10.0_rpi3_netboot_bootloader:
-#     tags:
-#         - fast-shells
-#     stage: rootfs
-#     script:
-#         - docker pull aistcpsec/tee-dev:optee-3.10.0_rpi3
-#         - docker build --build-arg VERSION=3.10.0 --build-arg DEBUG_DATE=$(date +%s)
-#            --rm -t ${REPO}:optee-3.10.0_rpi3_netboot_bootloader
-#            ./optee/3.10.0_rpi3_netboot_bootloader
-#         - docker push ${REPO}:optee-3.10.0_rpi3_netboot_bootloader
+tee-dev-optee-3.10.0_rpi3_netboot_bootloader:
+    tags:
+        - fast-shells
+    stage: rootfs
+    script:
+        - docker pull aistcpsec/tee-dev:optee-3.10.0_rpi3
+        - docker build --build-arg VERSION=3.10.0 --build-arg DEBUG_DATE=$(date +%s)
+           --rm -t ${REPO}:optee-3.10.0_rpi3_netboot_bootloader
+           ./optee/3.10.0_rpi3_netboot_bootloader
+        - docker push ${REPO}:optee-3.10.0_rpi3_netboot_bootloader
 
 # Job to create the rootfs tar file and push it into docker
 tee-dev-optee-3.10.0_rpi3_netboot_nfs:
@@ -93,22 +93,22 @@ tee-dev-optee-3.10.0_rpi3_netboot_nfs:
         - for i in {1..5}; do docker stop $NETBOOT_CONT_NME || true; done
         - docker rm $NETBOOT_CONT_NME || true
 
-# tee-dev-keystone_1.0.0:
-#     tags:
-#         - fast-shells
-#     stage: build
-#     script:
-#         - docker pull aistcpsec/tee-distro-dev:riscv-20.04
-#         - docker build --build-arg VERSION=v1.0.0 --build-arg DEBUG_DATE=$(date +%s)
-#            --rm -t ${REPO}:keystone-1.0.0 ./keystone/1.0.0
-#         - docker push ${REPO}:keystone-1.0.0
+tee-dev-keystone_1.0.0:
+    tags:
+        - fast-shells
+    stage: build
+    script:
+        - docker pull aistcpsec/tee-distro-dev:riscv-20.04
+        - docker build --build-arg VERSION=v1.0.0 --build-arg DEBUG_DATE=$(date +%s)
+           --rm -t ${REPO}:keystone-1.0.0 ./keystone/1.0.0
+        - docker push ${REPO}:keystone-1.0.0
 
-# trigger_docker-taref-dev:
-#     variables:
-#         TOKEN: a53b1d7a89b225601a16d6522f402b
-#     stage: trigger
-#     tags:
-#         - shell117
-#     script:
-#         - "curl -X POST --fail --retry 5 -F token=${TOKEN} -F ref=main -k
-#           https://192.168.100.100/api/v4/projects/132/trigger/pipeline"
+trigger_docker-taref-dev:
+    variables:
+        TOKEN: a53b1d7a89b225601a16d6522f402b
+    stage: trigger
+    tags:
+        - shell117
+    script:
+        - "curl -X POST --fail --retry 5 -F token=${TOKEN} -F ref=main -k
+          https://192.168.100.100/api/v4/projects/132/trigger/pipeline"

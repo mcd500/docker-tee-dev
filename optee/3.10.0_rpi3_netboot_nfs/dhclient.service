@@ -1,0 +1,10 @@
+[Unit]
+Description=enable dhclient
+
+[Service]
+Type=simple
+ExecStart=/sbin/dhclient eth0
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

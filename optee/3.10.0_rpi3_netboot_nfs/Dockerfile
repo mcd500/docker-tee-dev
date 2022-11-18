@@ -40,11 +40,9 @@ RUN cp etc/init.d/S30optee ${ROOTFS_EXT_DIR}/etc/init.d/ && \
 
 # Copy the tee-supplicant service
 COPY tee-supplicant.service ${ROOTFS_EXT_DIR}/etc/systemd/system/
-RUN sudo chmod 644 ${ROOTFS_EXT_DIR}/etc/systemd/system/tee-supplicant.service
+COPY dhclient.service ${ROOTFS_EXT_DIR}/etc/systemd/system/
+RUN sudo chmod a+x ${ROOTFS_EXT_DIR}/etc/systemd/system/tee-supplicant.service ${ROOTFS_EXT_DIR}/etc/systemd/system/dhclient.service
 
 # Removed the existing tar file
 RUN rm -rf arm64-20.04-rootfs.tar.xz
-
-# Create a new tar file and move to root directory
-# RUN tar -cJf arm64-20.04-rootfs-optee.tar.xz --exclude="dev,proc,sys" arm64-20.04-rootfs && sudo mv arm64-20.04-rootfs-optee.tar.xz /
 

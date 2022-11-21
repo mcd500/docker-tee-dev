@@ -25,14 +25,8 @@ ENV PATH=${PATH}:${USER_DIR}/bin
 
 # For fetching build-optee-repo.git
 #ARG CI_JOB_TOKEN
-#RUN git config --global user.name gitlab-ci-token
-#RUN git config --global http.sslVerify false
-#RUN git config --global credential.helper 'store --file ~/.git-credentials'
-#RUN echo https://gitlab-ci-token:${CI_JOB_TOKEN}@192.168.100.100:443 >> ~/.git-credentials
-#RUN echo https://gitlab-ci-token:${CI_JOB_TOKEN}@192.168.100.100 >> ~/.git-credentials
 
 RUN cat ~/.gitconfig
-#RUN cat ~/.git-credentials
 
 # Start optee 
 ENV OPTEE_DIR=${USER_DIR}/optee

@@ -7,7 +7,6 @@ USER build-user
 # for tzdata
 ENV DEBIAN_FRONTEND=noninteractive
 ENV USER_DIR=/home/user
-# see http://192.168.100.100/rinkai/dockerfiles/-/jobs/5698
 ENV FORCE_UNSAFE_CONFIGURE=1
 
 WORKDIR $USER_DIR

@@ -49,7 +49,8 @@ tee-dev-optee_3.10.0_rpi3:
         OPTEE_CONT_NME: optee-container
         KERNEL_IMG: kernel8.img
         KERNAL_TFTP_IMG: kernel-tftp.img
-        DTB_FILE: bcm2710-rpi-3-b-plus.dtb  
+        DTB_FILE: bcm2710-rpi-3-b-plus.dtb
+        OPTEE_BOOT_DIR: /home/user/optee/out-br/target/boot
     tags:
         - shell117
     stage: build
@@ -60,16 +61,16 @@ tee-dev-optee_3.10.0_rpi3:
         - docker push ${REPO}:optee-3.10.0_rpi3
         - for i in {1..5}; do docker stop $OPTEE_CONT_NME || true; done 
         - docker rm $OPTEE_CONT_NME || true
-        - docker run --privileged --cap-add=SYS_CHROOT --name $OPTEE_CONT_NME
-           -v $(pwd)/optee/3.10.0_rpi3/:/mnt ${REPO}:optee-3.10.0_rpi3 /bin/bash
-           -c "cp /home/user/optee/out-br/target/boot/${KERNEL_IMG} /mnt/ &&
-               cp /home/user/optee/out-br/target/boot/${DTB_FILE} /mnt/" 
+        - docker run --privileged --cap-add=SYS_CHROOT --name $OPTEE_CONT_NME -itd
+           -v $(pwd)/optee/3.10.0_rpi3:/mnt ${REPO}:optee-3.10.0_rpi3 
+        - docker cp $OPTEE_CONT_NME:/${OPTEE_BOOT_DIR}/${KERNEL_IMG} $CI_PROJECT_DIR/${KERNAL_TFTP_IMG}
+        - docker cp $OPTEE_CONT_NME:/${OPTEE_BOOT_DIR}/${DTB_FILE} $CI_PROJECT_DIR/${DTB_FILE}
         - for i in {1..5}; do docker stop $OPTEE_CONT_NME || true; done
         - docker rm $OPTEE_CONT_NME || true
     artifacts:
         paths:
-            - optee/3.10.0_rpi3/${KERNEL_IMG}
-            - optee/3.10.0_rpi3/${DTB_FILE}
+            - $CI_PROJECT_DIR/${KERNAL_TFTP_IMG}
+            - $CI_PROJECT_DIR/${DTB_FILE}
         expire_in: 1 week
 
 
